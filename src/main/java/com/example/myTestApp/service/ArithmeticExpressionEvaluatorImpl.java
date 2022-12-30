@@ -1,6 +1,7 @@
 package com.example.myTestApp.service;
 
 import com.example.myTestApp.exception.BadOperandException;
+import com.example.myTestApp.exception.DivisionByZeroException;
 import com.example.myTestApp.exception.MissedLeftBracketException;
 import com.example.myTestApp.exception.MissedRightBracketException;
 import org.springframework.stereotype.Service;
@@ -78,7 +79,13 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         res += "+";
         switch (operationType) {
             case MULTIPLICATION -> res += firstOperand * lastOperand;
-            case DIVISION -> res += firstOperand / lastOperand;
+            case DIVISION -> {
+                if(lastOperand != 0) {
+                    res += firstOperand / lastOperand;
+                } else {
+                    throw new DivisionByZeroException();
+                }
+            }
             case SUBTRACTION -> res += (firstOperand - lastOperand);
             case ADDITION -> res += (firstOperand + lastOperand);
             default -> throw new RuntimeException("unknown operation type!");
