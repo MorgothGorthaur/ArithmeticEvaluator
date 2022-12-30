@@ -15,16 +15,6 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         var res = evaluateExpression(removeDoubleSymbolsAndSpaces(arithmeticExpression));
         return getOperand(res, 0, res.length());
     }
-
-    private String removeDoubleSymbolsAndSpaces(String string) {
-        if (string.charAt(0) == '+') string = string.substring(1);
-        return string.strip().replaceAll("\\ ", "")
-                .replaceAll("--", "+")
-                .replaceAll("\\+-", "-")
-                .replaceAll("-\\+", "-")
-                .replaceAll("\\++", "+");
-    }
-
     private String simplifyExpression(String expression) {
         var bracketIndexes = getBracketsIndexes(expression);
         if (bracketIndexes[0] - 1 != 0 && Character.isDigit(expression.charAt(bracketIndexes[0] - 1))) {
@@ -40,21 +30,6 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         var res = firstExpression + subExpression + lastExpression;
         return checkIfExpressionContainsBrackets(res) ? simplifyExpression(removeDoubleSymbolsAndSpaces(res)) : removeDoubleSymbolsAndSpaces(res);
     }
-
-    private int[] getBracketsIndexes(String expression) {
-        var firstBracketIndex = expression.indexOf("(");
-        var lastBracketIndex = firstBracketIndex + 1;
-        checkLeftBracketIsMissed(expression, firstBracketIndex);
-        while (lastBracketIndex < expression.length() && expression.charAt(lastBracketIndex) != ')') {
-            if (expression.charAt(lastBracketIndex) == '(') {
-                firstBracketIndex = lastBracketIndex;
-            }
-            lastBracketIndex++;
-        }
-        checkIfRightBracketIsMissed(expression, lastBracketIndex);
-        return new int[]{firstBracketIndex, lastBracketIndex};
-    }
-
     private String evaluateExpression(String expression) {
         var opIndexes = new int[]{expression.indexOf('*'), expression.indexOf('/'), expression.indexOf('+'), expression.indexOf('-')};
         if ((opIndexes[0] <= opIndexes[1] || opIndexes[1] == -1) && opIndexes[0] != -1) {
@@ -78,6 +53,14 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         return removeDoubleSymbolsAndSpaces(res);
     }
 
+    private String removeDoubleSymbolsAndSpaces(String string) {
+        if (string.charAt(0) == '+') string = string.substring(1);
+        return string.strip().replaceAll("\\ ", "")
+                .replaceAll("--", "+")
+                .replaceAll("\\+-", "-")
+                .replaceAll("-\\+", "-")
+                .replaceAll("\\++", "+");
+    }
     private int[] getOperandValuesIndexes(String expression, int opIndex) {
         var firstIndex = getFirstOperandIndex(expression, opIndex);
         int lastIndex = getLastOperandIndex(expression, opIndex);
@@ -130,5 +113,18 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         if (expression.indexOf(")") < firstBracketIndex) {
             throw new MissedLeftBracketException();
         }
+    }
+    private int[] getBracketsIndexes(String expression) {
+        var firstBracketIndex = expression.indexOf("(");
+        var lastBracketIndex = firstBracketIndex + 1;
+        checkLeftBracketIsMissed(expression, firstBracketIndex);
+        while (lastBracketIndex < expression.length() && expression.charAt(lastBracketIndex) != ')') {
+            if (expression.charAt(lastBracketIndex) == '(') {
+                firstBracketIndex = lastBracketIndex;
+            }
+            lastBracketIndex++;
+        }
+        checkIfRightBracketIsMissed(expression, lastBracketIndex);
+        return new int[]{firstBracketIndex, lastBracketIndex};
     }
 }
