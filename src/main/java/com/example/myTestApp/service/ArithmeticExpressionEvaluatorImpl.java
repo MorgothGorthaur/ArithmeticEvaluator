@@ -1,7 +1,6 @@
 package com.example.myTestApp.service;
 
 import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.exception.DivisionByZeroException;
 import com.example.myTestApp.exception.MissedLeftBracketException;
 import com.example.myTestApp.exception.MissedRightBracketException;
 import org.springframework.stereotype.Service;
@@ -56,18 +55,18 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         return new int[]{firstBracketIndex, lastBracketIndex};
     }
 
-    private String evaluation(String string) {
-        var opIndexes = new int[]{string.indexOf('*'), string.indexOf('/'), string.indexOf('+'), string.indexOf('-')};
+    private String evaluation(String expression) {
+        var opIndexes = new int[]{expression.indexOf('*'), expression.indexOf('/'), expression.indexOf('+'), expression.indexOf('-')};
         if ((opIndexes[0] <= opIndexes[1] || opIndexes[1] == -1) && opIndexes[0] != -1) {
-            string = evaluation(doOperation(OperationType.MULTIPLICATION, opIndexes[0], string));
+            expression = evaluation(doOperation(OperationType.MULTIPLICATION, opIndexes[0], expression));
         } else if (opIndexes[1] != -1) {
-            string = evaluation(doOperation(OperationType.DIVISION, opIndexes[1], string));
+            expression = evaluation(doOperation(OperationType.DIVISION, opIndexes[1], expression));
         } else if (opIndexes[2] != -1) {
-            string = evaluation(doOperation(OperationType.ADDITION, opIndexes[2], string));
+            expression = evaluation(doOperation(OperationType.ADDITION, opIndexes[2], expression));
         } else if (opIndexes[3] > 0) {
-            string = evaluation(doOperation(OperationType.SUBTRACTION, opIndexes[3], string));
+            expression = evaluation(doOperation(OperationType.SUBTRACTION, opIndexes[3], expression));
         }
-        return string;
+        return expression;
     }
 
     private String doOperation(OperationType operationType, int opIndex, String expression) {
