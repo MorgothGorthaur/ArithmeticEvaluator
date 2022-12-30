@@ -79,7 +79,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         return exp.contains("(") && exp.contains(")");
     }
 
-    public int getFirstOperandIndex(String expression, int opIndex) {
+    private int getFirstOperandIndex(String expression, int opIndex) {
         var firstIndex = opIndex - 1;
         if (firstIndex == -1 && (expression.charAt(opIndex) == '*' || expression.charAt(opIndex) == '/')) {
             throw new BadOperandException();
