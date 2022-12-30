@@ -10,13 +10,13 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     @Override
     public double getEvaluation(String arithmeticExpression) {
         if (checkIfExpressionContainsBrackets(arithmeticExpression)) {
-            arithmeticExpression = simplifyExpression(check(arithmeticExpression));
+            arithmeticExpression = simplifyExpression(removeDoubleSymbolsAndSpaces(arithmeticExpression));
         }
-        var res = evaluation(check(arithmeticExpression));
+        var res = evaluation(removeDoubleSymbolsAndSpaces(arithmeticExpression));
         return getOperand(res, 0, res.length());
     }
 
-    private String check(String string) {
+    private String removeDoubleSymbolsAndSpaces(String string) {
         if (string.charAt(0) == '+') string = string.substring(1);
         return string.strip().replaceAll("\\ ", "")
                 .replaceAll("--", "+")
@@ -38,7 +38,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
                 ? simplifyExpression(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1]))
                 : String.valueOf(evaluation(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1])));
         var res = firstExpression + subExpression + lastExpression;
-        return checkIfExpressionContainsBrackets(res) ? simplifyExpression(check(res)) : check(res);
+        return checkIfExpressionContainsBrackets(res) ? simplifyExpression(removeDoubleSymbolsAndSpaces(res)) : removeDoubleSymbolsAndSpaces(res);
     }
 
     private int[] getBracketsIndexes(String expression) {
@@ -75,7 +75,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         var lastOperand = getOperand(expression, opIndex + 1, indexes[1]);
         var res = indexes[0] == -1 ? "" : expression.substring(0, indexes[0]);
         res += "+" + operationType.doOperation(firstOperand, lastOperand) + expression.substring(indexes[1]);
-        return check(res);
+        return removeDoubleSymbolsAndSpaces(res);
     }
 
     private int[] getOperandValuesIndexes(String expression, int opIndex) {
