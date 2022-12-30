@@ -6,8 +6,7 @@ enum OperationType {
     ADDITION,
     SUBTRACTION,
     MULTIPLICATION,
-    DIVISION,
-    DOESNT_SETTED;
+    DIVISION;
 
     double doOperation(double firstOperand, double secondOperand) {
         switch (ordinal()) {
