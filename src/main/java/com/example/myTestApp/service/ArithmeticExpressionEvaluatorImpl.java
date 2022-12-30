@@ -26,6 +26,11 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     }
     private String simplifyExpression(String expression) {
         var bracketIndexes = getBracketsIndexes(expression);
+        if(bracketIndexes[0]-1 != 0 && Character.isDigit(expression.charAt(bracketIndexes[0]-1))) {
+            expression = expression.substring(0, bracketIndexes[0]) + '*' + expression.substring(bracketIndexes[0]);
+            bracketIndexes[0] +=1;
+            bracketIndexes[1] +=1;
+        }
         var firstExpression = expression.substring(0, bracketIndexes[0]);
         var lastExpression = expression.substring(bracketIndexes[1] + 1);
         var subExpression = checkIfExpressionContainsBrackets(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1]))
@@ -51,12 +56,14 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     private String evaluation(String string) {
         var opIndex = 0;
         var operationType = OperationType.DOESNT_SETTED;
-        if (string.contains("*")) {
-            opIndex = string.indexOf("*");
-            operationType = OperationType.MULTIPLICATION;
-        } else if (string.contains("/")) {
-            opIndex = string.indexOf("/");
-            operationType = OperationType.DIVISION;
+        if(string.contains("*") || string.contains("/") ){
+          if((string.indexOf('*') <= string.indexOf('/') && string.indexOf('*') != -1) || string.indexOf('/') == -1) {
+              opIndex = string.indexOf("*");
+              operationType = OperationType.MULTIPLICATION;
+          } else {
+              opIndex = string.indexOf("/");
+              operationType = OperationType.DIVISION;
+          }
         } else if (string.contains("+")) {
             opIndex = string.indexOf("+");
             operationType = OperationType.ADDITION;
