@@ -87,7 +87,6 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
 
     private int getLastOperandIndex(String expression, int opIndex) {
         var lastIndex = opIndex + 1;
-
         while (lastIndex + 1 < expression.length() && (expression.charAt(lastIndex + 1) == '.' || Character.isDigit(expression.charAt(lastIndex + 1)))) {
             lastIndex++;
         }
@@ -133,5 +132,4 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
             throw new MissedLeftBracketException();
         }
     }
-
 }
