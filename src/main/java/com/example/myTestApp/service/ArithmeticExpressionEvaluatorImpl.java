@@ -17,7 +17,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     }
     private String simplifyExpression(String expression) {
         var bracketIndexes = getBracketsIndexes(expression);
-        if (bracketIndexes[0] - 1 != 0 && Character.isDigit(expression.charAt(bracketIndexes[0] - 1))) {
+        if (bracketIndexes[0] - 1 >= 0 && Character.isDigit(expression.charAt(bracketIndexes[0] - 1))) {
             expression = expression.substring(0, bracketIndexes[0]) + '*' + expression.substring(bracketIndexes[0]);
             bracketIndexes[0] += 1;
             bracketIndexes[1] += 1;
@@ -54,7 +54,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     }
 
     private String removeDoubleSymbolsAndSpaces(String string) {
-        if (string.charAt(0) == '+') string = string.substring(1);
+        if (string.length() >0 && string.charAt(0) == '+') string = string.substring(1);
         return string.strip().replaceAll("\\ ", "")
                 .replaceAll("--", "+")
                 .replaceAll("\\+-", "-")
@@ -96,7 +96,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     private double getOperand(String expression, int firstIndex, int lastIndex) {
         if (expression.contains("(")) throw new MissedRightBracketException();
         if (expression.contains(")")) throw new MissedLeftBracketException();
-        if(expression.equals("")) expression = "0";
+        if(expression.equals("")) return 0;
         try {
             return Double.parseDouble(expression.substring(firstIndex, lastIndex));
         } catch (RuntimeException ex) {
