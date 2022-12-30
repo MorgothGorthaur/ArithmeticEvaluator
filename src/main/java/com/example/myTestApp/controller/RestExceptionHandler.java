@@ -1,10 +1,7 @@
 package com.example.myTestApp.controller;
 
 
-import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.exception.ExpressionNotFoundException;
-import com.example.myTestApp.exception.MissedLeftBracketException;
-import com.example.myTestApp.exception.MissedRightBracketException;
+import com.example.myTestApp.exception.*;
 import com.example.myTestApp.model.ApiError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +21,7 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({BadOperandException.class, MissedRightBracketException.class, MissedLeftBracketException.class})
+    @ExceptionHandler({BadOperandException.class, MissedRightBracketException.class, MissedLeftBracketException.class, DivisionByZeroException.class})
     public ResponseEntity<Object> handleInvalidArgument(RuntimeException ex) {
         ApiError apiError = new ApiError("validation error", ex.getMessage());
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
