@@ -1,5 +1,8 @@
 package com.example.myTestApp.service;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class NumOfDoublesCounterImpl implements NumOfDoublesCounter {
     @Override
     public int count(String str) {
