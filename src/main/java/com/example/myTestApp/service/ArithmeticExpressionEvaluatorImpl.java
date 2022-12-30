@@ -12,7 +12,6 @@ public class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEv
         arithmeticExpression = simplifyExpression(check(arithmeticExpression));
         var res = evaluation(arithmeticExpression);
         return getOperand(res, 0, res.length());
-
     }
     private String check(String string) {
         if (string.charAt(0) == '+') string = string.substring(1);
@@ -35,20 +34,17 @@ public class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEv
     private int[] getBracketsIndexes(String expression) {
         var firstBracketIndex = expression.indexOf("(");
         var lastBracketIndex = firstBracketIndex +1;
-        if(expression.indexOf(")") < firstBracketIndex) {
-            throw new MissedLeftBracketException();
-        }
+        checkLeftBracketIsMissed(expression, firstBracketIndex);
         while (lastBracketIndex < expression.length() && expression.charAt(lastBracketIndex) != ')') {
             if(expression.charAt(lastBracketIndex) == '('){
                 firstBracketIndex = lastBracketIndex;
             }
             lastBracketIndex ++;
         }
-        if(expression.charAt(lastBracketIndex) != ')') {
-            throw new MissedRightBracketException();
-        }
+        checkIfRightBracketIsMissed(expression, lastBracketIndex);
         return new int[] {firstBracketIndex, lastBracketIndex};
     }
+
     private String evaluation(String string) {
         var opIndex = 0;
         var operationType = OperationType.DOESNT_SETTED;
@@ -111,6 +107,18 @@ public class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEv
             return Double.parseDouble(expression.substring(firstIndex, lastIndex));
         } catch (RuntimeException ex) {
             throw new BadOperandException();
+        }
+    }
+
+    private void checkIfRightBracketIsMissed(String expression, int lastBracketIndex) {
+        if(expression.charAt(lastBracketIndex) != ')') {
+            throw new MissedRightBracketException();
+        }
+    }
+
+    private void checkLeftBracketIsMissed(String expression, int firstBracketIndex) {
+        if(expression.indexOf(")") < firstBracketIndex) {
+            throw new MissedLeftBracketException();
         }
     }
 
