@@ -31,7 +31,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         return checkIfExpressionContainsBrackets(res) ? simplifyExpression(removeDoubleSymbolsAndSpaces(res)) : removeDoubleSymbolsAndSpaces(res);
     }
     private String evaluateExpression(String expression) {
-        var opIndexes = new int[]{expression.indexOf('*'), expression.indexOf('/'), expression.indexOf('+'), expression.indexOf('-')};
+        var opIndexes = new int[]{expression.indexOf('*'), expression.indexOf('/'), expression.indexOf('+'), expression.lastIndexOf('-')};
         if ((opIndexes[0] <= opIndexes[1] || opIndexes[1] == -1) && opIndexes[0] != -1) {
             expression = evaluateExpression(doOperation(OperationType.MULTIPLICATION, opIndexes[0], expression));
         } else if (opIndexes[1] != -1) {
