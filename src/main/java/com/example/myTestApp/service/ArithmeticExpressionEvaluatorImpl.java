@@ -6,7 +6,7 @@ import com.example.myTestApp.exception.MissedRightBracketException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator {
+class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator {
     @Override
     public double getEvaluation(String arithmeticExpression) {
         if(checkIfExpressionContainsBrackets(arithmeticExpression)) {
