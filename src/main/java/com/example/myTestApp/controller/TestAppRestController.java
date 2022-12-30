@@ -5,6 +5,7 @@ import com.example.myTestApp.exception.ExpressionNotFoundException;
 import com.example.myTestApp.model.Expression;
 import com.example.myTestApp.repository.ExpressionRepository;
 import com.example.myTestApp.service.ArithmeticExpressionEvaluator;
+import com.example.myTestApp.service.NumOfDoublesCounter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +17,12 @@ import java.util.List;
 public class TestAppRestController {
     private final ExpressionRepository repository;
     private final ArithmeticExpressionEvaluator evaluator;
+    private final NumOfDoublesCounter counter;
 
     @PostMapping
     public Expression getResult(@RequestBody Expression expression) {
-        var res = evaluator.getEvaluation(expression.getArithmeticExpression());
-        expression.setResult(res);
+        expression.setNumOfDoubles(counter.count(expression.getArithmeticExpression()));
+        expression.setResult(evaluator.getEvaluation(expression.getArithmeticExpression()));
         repository.save(expression);
         return expression;
 
@@ -28,10 +30,10 @@ public class TestAppRestController {
 
     @PatchMapping
     public Expression updateExpression(@RequestBody Expression expression) {
-        var exp = repository.findById(expression.getId())
-                .orElseThrow(() -> new ExpressionNotFoundException(expression.getId()));
+        var exp = repository.findById(expression.getId()).orElseThrow(() -> new ExpressionNotFoundException(expression.getId()));
         exp.setArithmeticExpression(expression.getArithmeticExpression());
         exp.setResult(evaluator.getEvaluation(expression.getArithmeticExpression()));
+        exp.setNumOfDoubles(counter.count(expression.getArithmeticExpression()));
         return repository.save(exp);
 
     }
