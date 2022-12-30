@@ -20,10 +20,10 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     private String check(String string) {
         if (string.charAt(0) == '+') string = string.substring(1);
         return string.strip().replaceAll("\\ ", "")
-                .replaceAll("\\-\\-", "+")
-                .replaceAll("\\+\\-", "-")
-                .replaceAll("\\-\\+", "-")
-                .replaceAll("\\+\\+", "+");
+                .replaceAll("--", "+")
+                .replaceAll("\\+-", "-")
+                .replaceAll("-\\+", "-")
+                .replaceAll("\\++", "+");
     }
 
     private String simplifyExpression(String expression) {
