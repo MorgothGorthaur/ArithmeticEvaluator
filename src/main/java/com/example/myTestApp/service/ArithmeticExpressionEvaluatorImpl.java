@@ -96,6 +96,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     private double getOperand(String expression, int firstIndex, int lastIndex) {
         if (expression.contains("(")) throw new MissedRightBracketException();
         if (expression.contains(")")) throw new MissedLeftBracketException();
+        if(expression.equals("")) expression = "0";
         try {
             return Double.parseDouble(expression.substring(firstIndex, lastIndex));
         } catch (RuntimeException ex) {

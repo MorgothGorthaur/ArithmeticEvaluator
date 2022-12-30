@@ -68,5 +68,4 @@ class ArithmeticExpressionEvaluatorImplTest {
         res = arithmeticExpressionEvaluator.getEvaluation(expression);
         assertEquals(res, 4.0);
     }
-    
 }
