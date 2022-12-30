@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 public class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator {
     @Override
     public double getEvaluation(String arithmeticExpression) {
-        arithmeticExpression = simplifyExpression(check(arithmeticExpression));
-        var res = evaluation(arithmeticExpression);
+        if(checkIfExpressionContainsBrackets(arithmeticExpression)) {
+            arithmeticExpression = simplifyExpression(check(arithmeticExpression));
+        }
+        var res = evaluation(check(arithmeticExpression));
         return getOperand(res, 0, res.length());
     }
     private String check(String string) {
@@ -87,6 +89,9 @@ public class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEv
     private int[] getOperandValuesIndexes(String expression, int opIndex) {
         var firstIndex = opIndex - 1;
         var lastIndex = opIndex + 1;
+        if(firstIndex == -1 && (expression.charAt(opIndex) == '*' || expression.charAt(opIndex) == '/')) {
+            throw new BadOperandException();
+        }
         while (firstIndex - 1 > -1 && (expression.charAt(firstIndex - 1) == '.' || Character.isDigit(expression.charAt(firstIndex - 1)))) {
             firstIndex--;
         }
