@@ -12,7 +12,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         if (checkIfExpressionContainsBrackets(arithmeticExpression)) {
             arithmeticExpression = simplifyExpression(removeDoubleSymbolsAndSpaces(arithmeticExpression));
         }
-        var res = evaluation(removeDoubleSymbolsAndSpaces(arithmeticExpression));
+        var res = evaluateExpression(removeDoubleSymbolsAndSpaces(arithmeticExpression));
         return getOperand(res, 0, res.length());
     }
 
@@ -36,7 +36,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         var lastExpression = expression.substring(bracketIndexes[1] + 1);
         var subExpression = checkIfExpressionContainsBrackets(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1]))
                 ? simplifyExpression(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1]))
-                : String.valueOf(evaluation(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1])));
+                : String.valueOf(evaluateExpression(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1])));
         var res = firstExpression + subExpression + lastExpression;
         return checkIfExpressionContainsBrackets(res) ? simplifyExpression(removeDoubleSymbolsAndSpaces(res)) : removeDoubleSymbolsAndSpaces(res);
     }
@@ -55,16 +55,16 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         return new int[]{firstBracketIndex, lastBracketIndex};
     }
 
-    private String evaluation(String expression) {
+    private String evaluateExpression(String expression) {
         var opIndexes = new int[]{expression.indexOf('*'), expression.indexOf('/'), expression.indexOf('+'), expression.indexOf('-')};
         if ((opIndexes[0] <= opIndexes[1] || opIndexes[1] == -1) && opIndexes[0] != -1) {
-            expression = evaluation(doOperation(OperationType.MULTIPLICATION, opIndexes[0], expression));
+            expression = evaluateExpression(doOperation(OperationType.MULTIPLICATION, opIndexes[0], expression));
         } else if (opIndexes[1] != -1) {
-            expression = evaluation(doOperation(OperationType.DIVISION, opIndexes[1], expression));
+            expression = evaluateExpression(doOperation(OperationType.DIVISION, opIndexes[1], expression));
         } else if (opIndexes[2] != -1) {
-            expression = evaluation(doOperation(OperationType.ADDITION, opIndexes[2], expression));
+            expression = evaluateExpression(doOperation(OperationType.ADDITION, opIndexes[2], expression));
         } else if (opIndexes[3] > 0) {
-            expression = evaluation(doOperation(OperationType.SUBTRACTION, opIndexes[3], expression));
+            expression = evaluateExpression(doOperation(OperationType.SUBTRACTION, opIndexes[3], expression));
         }
         return expression;
     }
