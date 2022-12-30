@@ -18,4 +18,6 @@ public class Expression {
     @Column(name = "arithmetic_expression")
     private String arithmeticExpression;
     private Double result;
+    @Column(name = "num_of_doubles")
+    private Integer numOfDoubles;
 }
