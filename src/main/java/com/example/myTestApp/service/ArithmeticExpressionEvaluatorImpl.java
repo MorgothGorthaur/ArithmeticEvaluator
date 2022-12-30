@@ -72,19 +72,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         var lastOperand = getOperand(expression, opIndex+1, indexes[1]);
         var res = indexes[0] == -1 ? "" : expression.substring(0, indexes[0]);
         res += "+";
-        switch (operationType) {
-            case MULTIPLICATION -> res += firstOperand * lastOperand;
-            case DIVISION -> {
-                if(lastOperand != 0) {
-                    res += firstOperand / lastOperand;
-                } else {
-                    throw new DivisionByZeroException();
-                }
-            }
-            case SUBTRACTION -> res += (firstOperand - lastOperand);
-            case ADDITION -> res += (firstOperand + lastOperand);
-            default -> throw new RuntimeException("unknown operation type!");
-        }
+        res += operationType.doOperation(firstOperand, lastOperand);
         res += expression.substring(indexes[1]);
         return check(res);
     }
