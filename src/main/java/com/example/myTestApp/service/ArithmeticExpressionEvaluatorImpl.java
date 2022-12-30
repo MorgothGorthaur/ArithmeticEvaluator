@@ -75,9 +75,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         var firstOperand = indexes[0] == -1 ? 0 : getOperand(expression, indexes[0], opIndex);
         var lastOperand = getOperand(expression, opIndex + 1, indexes[1]);
         var res = indexes[0] == -1 ? "" : expression.substring(0, indexes[0]);
-        res += "+";
-        res += operationType.doOperation(firstOperand, lastOperand);
-        res += expression.substring(indexes[1]);
+        res += "+" + operationType.doOperation(firstOperand, lastOperand) + expression.substring(indexes[1]);
         return check(res);
     }
 
