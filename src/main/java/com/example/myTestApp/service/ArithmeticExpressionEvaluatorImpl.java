@@ -54,27 +54,15 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     }
 
     private String evaluation(String string) {
-        var opIndex = 0;
-        var operationType = OperationType.DOESNT_SETTED;
-        if(string.contains("*") || string.contains("/") ){
-          if((string.indexOf('*') <= string.indexOf('/') && string.indexOf('*') != -1) || string.indexOf('/') == -1) {
-              opIndex = string.indexOf("*");
-              operationType = OperationType.MULTIPLICATION;
-          } else {
-              opIndex = string.indexOf("/");
-              operationType = OperationType.DIVISION;
-          }
-        } else if (string.contains("+")) {
-            opIndex = string.indexOf("+");
-            operationType = OperationType.ADDITION;
-        } else if (string.contains("-")) {
-            opIndex = string.indexOf("-");
-            if (opIndex != 0) {
-                operationType = OperationType.SUBTRACTION;
-            }
-        }
-        if (!operationType.equals(OperationType.DOESNT_SETTED)) {
-            string = evaluation(doOperation(operationType, opIndex, string));
+        var opIndexes = new int[] {string.indexOf('*'), string.indexOf('/'), string.indexOf('+'), string.indexOf('-')};
+        if((opIndexes[0] <= opIndexes[1] || opIndexes[1] == -1) && opIndexes[0] != -1 ) {
+            string = evaluation(doOperation(OperationType.MULTIPLICATION, opIndexes[0], string));
+        } else if (opIndexes[1] != -1) {
+            string = evaluation(doOperation(OperationType.DIVISION, opIndexes[1], string));
+        } else if (opIndexes[2] != -1) {
+            string = evaluation(doOperation(OperationType.ADDITION, opIndexes[2], string));
+        } else if (opIndexes[3] > 0) {
+            string = evaluation(doOperation(OperationType.SUBTRACTION, opIndexes[3], string));
         }
         return string;
     }
