@@ -31,6 +31,42 @@ class ArithmeticExpressionEvaluatorImplTest {
         res = arithmeticExpressionEvaluator.getEvaluation(expression);
         assertEquals(res, -1.0);
 
+        expression = "2 -- 2";
+        res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, 4.0);
 
+        expression = "2 * -3";
+        res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, -6.0);
+
+        expression = "2 / 3";
+        res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, 0.667);
+        expression = "3 / 2";
+        res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, 1.5);
     }
+    @Test
+    void getEvaluation_basicArithmeticOperationsWithMoreThenTwoOperands() {
+        var expression = "2+2+2";
+        var res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, 6.0);
+
+        expression = "2+2*3";
+        res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, 8.0);
+
+        expression = "2 * 2 /4";
+        res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, 1.0);
+
+        expression = "2/2*4";
+        res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, 4.0);
+
+        expression = "2/--2 *--4";
+        res = arithmeticExpressionEvaluator.getEvaluation(expression);
+        assertEquals(res, 4.0);
+    }
+    
 }
