@@ -1,8 +1,7 @@
 package com.example.myTestApp.controller;
 
 
-import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.exception.ExpressionNotFound;
+import com.example.myTestApp.exception.ExpressionNotFoundException;
 import com.example.myTestApp.model.Expression;
 import com.example.myTestApp.repository.ExpressionRepository;
 import com.example.myTestApp.service.ArithmeticExpressionEvaluator;
@@ -30,7 +29,7 @@ public class TestAppRestController {
     @PatchMapping
     public Expression updateExpression(@RequestBody Expression expression) {
         var exp = repository.findById(expression.getId())
-                .orElseThrow(() -> new ExpressionNotFound(expression.getId()));
+                .orElseThrow(() -> new ExpressionNotFoundException(expression.getId()));
         exp.setArithmeticExpression(expression.getArithmeticExpression());
         exp.setResult(evaluator.getEvaluation(expression.getArithmeticExpression()));
         return repository.save(exp);
