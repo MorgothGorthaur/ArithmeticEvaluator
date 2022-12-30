@@ -33,8 +33,21 @@ public class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEv
         return checkIfExpressionContainsBrackets(res)? simplifyExpression(check(res)) : check(res);
     }
     private int[] getBracketsIndexes(String expression) {
-
-
+        var firstBracketIndex = expression.indexOf("(");
+        var lastBracketIndex = firstBracketIndex +1;
+        if(expression.indexOf(")") < firstBracketIndex) {
+            throw new MissedLeftBracketException();
+        }
+        while (lastBracketIndex < expression.length() && expression.charAt(lastBracketIndex) != ')') {
+            if(expression.charAt(lastBracketIndex) == '('){
+                firstBracketIndex = lastBracketIndex;
+            }
+            lastBracketIndex ++;
+        }
+        if(expression.charAt(lastBracketIndex) != ')') {
+            throw new MissedRightBracketException();
+        }
+        return new int[] {firstBracketIndex, lastBracketIndex};
     }
     private String evaluation(String string) {
         var opIndex = 0;
