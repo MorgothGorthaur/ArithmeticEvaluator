@@ -1,6 +1,8 @@
 package com.example.myTestApp.service.evaluator;
 
 import com.example.myTestApp.exception.BadOperandException;
+import com.example.myTestApp.exception.MissedLeftBracketException;
+import com.example.myTestApp.exception.MissedRightBracketException;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
@@ -88,12 +90,25 @@ class StringExpressionHandlerTest {
     }
 
     @Test
-    void getCheckIfExpressionDoesntMissedBrackets() {
+    void checkIfExpressionDoesntMissedBrackets() {
         var expression = "(())";
         handler.checkIfExpressionDoesntMissedBrackets(expression);
-
-        expression = "()(";
-
+    }
+    @Test
+    void checkIfExpressionDoesntMissedBrackets_shouldThrowMissedRightBracketException() {
+        var secondExpression = "()(";
+        var exception = assertThrows(MissedRightBracketException.class, () -> {
+            handler.checkIfExpressionDoesntMissedBrackets(secondExpression);
+        });
+        assertEquals(exception.getMessage(), "Missed )");
+    }
+    @Test
+    void checkIfExpressionDoesntMissedBrackets_shouldThrowMissedLeftBracketException() {
+        var secondExpression = "())";
+        var exception = assertThrows(MissedLeftBracketException.class, () -> {
+            handler.checkIfExpressionDoesntMissedBrackets(secondExpression);
+        });
+        assertEquals(exception.getMessage(), "Missed (");
     }
 
 }
