@@ -1,4 +1,4 @@
-package com.example.myTestApp.service;
+package com.example.myTestApp.service.evaluator;
 
 import com.example.myTestApp.exception.BadOperandException;
 import com.example.myTestApp.exception.DivisionByZeroException;
@@ -7,9 +7,11 @@ import com.example.myTestApp.exception.MissedRightBracketException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 class ArithmeticExpressionEvaluatorImplTest {
     final StringExpressionHandler handler = new StringExpressionHandlerImpl();
     final ArithmeticExpressionEvaluator arithmeticExpressionEvaluator = new ArithmeticExpressionEvaluatorImpl(handler);
+
     @Test
     void getEvaluation_basicArithmeticOperations() {
         var expression = "2+2";
@@ -59,6 +61,7 @@ class ArithmeticExpressionEvaluatorImplTest {
         res = arithmeticExpressionEvaluator.getEvaluation(expression);
         assertEquals(res, 2.0);
     }
+
     @Test
     void getEvaluation_basicArithmeticOperationsWithMoreThenTwoOperands() {
         var expression = "2+2+2";
@@ -105,7 +108,7 @@ class ArithmeticExpressionEvaluatorImplTest {
     void getEvaluation_shouldThrowDivisionByZeroException() {
         var expression = "2/0";
         var exception = assertThrows(DivisionByZeroException.class, () -> {
-           arithmeticExpressionEvaluator.getEvaluation(expression);
+            arithmeticExpressionEvaluator.getEvaluation(expression);
         });
         assertEquals(exception.getMessage(), "division by zero!");
 

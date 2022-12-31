@@ -1,4 +1,4 @@
-package com.example.myTestApp.service;
+package com.example.myTestApp.service.evaluator;
 
 import com.example.myTestApp.exception.BadOperandException;
 import com.example.myTestApp.exception.MissedLeftBracketException;

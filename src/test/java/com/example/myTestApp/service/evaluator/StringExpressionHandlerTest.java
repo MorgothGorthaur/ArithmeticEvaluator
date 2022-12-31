@@ -1,7 +1,8 @@
-package com.example.myTestApp.service;
+package com.example.myTestApp.service.evaluator;
 
 import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.exception.MissedLeftBracketException;
+import com.example.myTestApp.service.evaluator.StringExpressionHandler;
+import com.example.myTestApp.service.evaluator.StringExpressionHandlerImpl;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 

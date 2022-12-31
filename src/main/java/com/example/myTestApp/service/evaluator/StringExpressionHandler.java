@@ -1,4 +1,4 @@
-package com.example.myTestApp.service;
+package com.example.myTestApp.service.evaluator;
 
 
 public interface StringExpressionHandler {

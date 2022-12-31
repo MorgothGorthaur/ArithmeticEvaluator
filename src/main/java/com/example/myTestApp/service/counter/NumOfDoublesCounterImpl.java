@@ -1,5 +1,6 @@
-package com.example.myTestApp.service;
+package com.example.myTestApp.service.counter;
 
+import com.example.myTestApp.service.counter.NumOfDoublesCounter;
 import org.springframework.stereotype.Service;
 
 @Service

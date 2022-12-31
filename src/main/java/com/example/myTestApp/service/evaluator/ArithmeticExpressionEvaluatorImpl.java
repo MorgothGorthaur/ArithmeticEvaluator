@@ -1,4 +1,5 @@
-package com.example.myTestApp.service;
+package com.example.myTestApp.service.evaluator;
+
 import lombok.*;
 import org.springframework.stereotype.Service;
 
