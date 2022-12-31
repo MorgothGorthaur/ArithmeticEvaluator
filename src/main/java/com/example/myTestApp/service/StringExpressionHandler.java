@@ -1,11 +1,12 @@
 package com.example.myTestApp.service;
 
-public interface StringExpressionHandler {
-    int[] getBracketIndexes(String expression);
+import java.util.List;
 
-    double getOperand(String expression, int startIndex, int endIndex);
+public interface StringExpressionHandler {
+    String [] splitByBrackets(String expression);
+    double getOperand(String operation, int startIndex, int endIndex);
     String removeDoubleSymbolsAndSpaces(String string);
-    int getOperandEndIndex(String expression, int opIndex);
-    int getOperandStartIndex(String expression, int opIndex);
+    int getOperandEndIndex(String operation, int opIndex);
+    int getOperandStartIndex(String operation, int opIndex);
     boolean checkIfExpressionContainsBrackets(String exp);
 }
