@@ -22,13 +22,9 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
             bracketIndexes[0] += 1;
             bracketIndexes[1] += 1;
         }
-        var firstExpression = expression.substring(0, bracketIndexes[0]);
-        var lastExpression = expression.substring(bracketIndexes[1] + 1);
-        var subExpression = checkIfExpressionContainsBrackets(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1]))
-                ? simplifyExpression(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1]))
-                : String.valueOf(evaluateExpression(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1])));
-        var res = firstExpression + subExpression + lastExpression;
-        return checkIfExpressionContainsBrackets(res) ? simplifyExpression(removeDoubleSymbolsAndSpaces(res)) : removeDoubleSymbolsAndSpaces(res);
+        var subExpression =  String.valueOf(evaluateExpression(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1])));
+        var res = removeDoubleSymbolsAndSpaces(expression.substring(0, bracketIndexes[0]) + subExpression +  expression.substring(bracketIndexes[1] + 1));
+        return checkIfExpressionContainsBrackets(res) ? simplifyExpression(res) : res;
     }
     private String evaluateExpression(String expression) {
         var opIndexes = new int[]{expression.indexOf('*'), expression.indexOf('/'), expression.indexOf('+'), expression.lastIndexOf('-')};
@@ -110,7 +106,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         }
     }
 
-    private void checkLeftBracketIsMissed(String expression, int firstBracketIndex) {
+    private void checkIfLeftBracketIsMissed(String expression, int firstBracketIndex) {
         if (expression.indexOf(")") < firstBracketIndex) {
             throw new MissedLeftBracketException();
         }
@@ -118,7 +114,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     private int[] getBracketsIndexes(String expression) {
         var firstBracketIndex = expression.indexOf("(");
         var lastBracketIndex = firstBracketIndex + 1;
-        checkLeftBracketIsMissed(expression, firstBracketIndex);
+        checkIfLeftBracketIsMissed(expression, firstBracketIndex);
         while (lastBracketIndex < expression.length() && expression.charAt(lastBracketIndex) != ')') {
             if (expression.charAt(lastBracketIndex) == '(') {
                 firstBracketIndex = lastBracketIndex;
