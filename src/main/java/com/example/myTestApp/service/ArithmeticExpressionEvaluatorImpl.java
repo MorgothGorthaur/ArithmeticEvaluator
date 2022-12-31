@@ -41,12 +41,10 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     }
 
     private String doOperation(OperationType operationType, int opIndex, String expression) {
-        var indexes = getOperandValuesIndexes(expression, opIndex);
-        var firstOperand = getOperand(expression, indexes[0], opIndex);
-        var lastOperand = getOperand(expression, opIndex + 1, indexes[1]);
-        var res = indexes[0] == -1 ? "" : expression.substring(0, indexes[0]);
-        res += "+" + operationType.doOperation(firstOperand, lastOperand) + expression.substring(indexes[1]);
-
+        var leftOperandStartIndex = getOperandStartIndex(expression, opIndex);
+        var rightOperandEndIndex = getOperandEndIndex(expression, opIndex);
+        var res = expression.substring(0, leftOperandStartIndex) + "+";
+        res += operationType.doOperation(getOperand(expression, leftOperandStartIndex, opIndex), getOperand(expression, opIndex + 1, rightOperandEndIndex)) + expression.substring(rightOperandEndIndex);
         return removeDoubleSymbolsAndSpaces(res);
     }
 
@@ -58,39 +56,14 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
                 .replaceAll("-\\+", "-")
                 .replaceAll("\\++", "+");
     }
-    private int[] getOperandValuesIndexes(String expression, int opIndex) {
-        var firstIndex = getFirstOperandIndex(expression, opIndex);
-        int lastIndex = getLastOperandIndex(expression, opIndex);
-        return new int[]{firstIndex, lastIndex + 1};
-    }
-
-    private int getLastOperandIndex(String expression, int opIndex) {
+    private int getOperandEndIndex(String expression, int opIndex) {
         var lastIndex = opIndex + 1;
-        while (lastIndex + 1 < expression.length() && (expression.charAt(lastIndex + 1) == '.' || Character.isDigit(expression.charAt(lastIndex + 1)))) {
+        while (lastIndex+1  < expression.length() && (expression.charAt(lastIndex + 1) == '.' || Character.isDigit(expression.charAt(lastIndex + 1)))) {
             lastIndex++;
         }
-        return lastIndex;
+        return lastIndex+1;
     }
-
-    private boolean checkIfExpressionContainsBrackets(String exp) {
-        return exp.contains("(") && exp.contains(")");
-    }
-    private double getLeftOperand(String expression, int endIndex) {
-        var firstIndex = endIndex -1;
-        while (firstIndex > 0  && (expression.charAt(firstIndex - 1) == '.' || Character.isDigit(expression.charAt(firstIndex - 1)))) {
-            firstIndex--;
-        }
-        firstIndex = firstIndex > 0 && expression.charAt(firstIndex-1) == '-' ? firstIndex-1 : firstIndex;
-        return getOperand(expression, firstIndex, endIndex);
-    }
-    private double getRightOperand(String expression, int firstIndex) {
-        var endIndex = firstIndex + 1;
-        while (endIndex + 1 < expression.length() && (expression.charAt(endIndex + 1) == '.' || Character.isDigit(expression.charAt(endIndex + 1)))) {
-            endIndex++;
-        }
-        return getOperand(expression, firstIndex, endIndex);
-    }
-    private int getFirstOperandIndex(String expression, int opIndex) {
+    private int getOperandStartIndex(String expression, int opIndex) {
         var firstIndex = opIndex - 1;
         while (firstIndex > 0  && (expression.charAt(firstIndex - 1) == '.' || Character.isDigit(expression.charAt(firstIndex - 1)))) {
             firstIndex--;
@@ -98,12 +71,17 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         return firstIndex > 0 && expression.charAt(firstIndex-1) == '-' ? firstIndex-1 : firstIndex;
     }
 
-    private double getOperand(String expression, int firstIndex, int lastIndex) {
+    private boolean checkIfExpressionContainsBrackets(String exp) {
+        return exp.contains("(") && exp.contains(")");
+    }
+
+
+    private double getOperand(String expression, int startIndex, int endIndex) {
         if (expression.contains("(")) throw new MissedRightBracketException();
         if (expression.contains(")")) throw new MissedLeftBracketException();
         if(expression.equals("")) return 0;
         try {
-            return Double.parseDouble(expression.substring(firstIndex, lastIndex));
+            return Double.parseDouble(expression.substring(startIndex, endIndex));
         } catch (RuntimeException ex) {
             throw new BadOperandException();
         }
