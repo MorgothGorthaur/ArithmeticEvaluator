@@ -51,7 +51,7 @@ class StringExpressionHandlerImpl implements StringExpressionHandler {
     }
 
     @Override
-    public int getOperandEndIndex(String operation, int opIndex) {
+    public int getSecondOperandEndIndex(String operation, int opIndex) {
         var lastIndex = opIndex + 1;
         while (lastIndex + 1 < operation.length() && (operation.charAt(lastIndex + 1) == '.' || Character.isDigit(operation.charAt(lastIndex + 1)))) {
             lastIndex++;
@@ -60,7 +60,7 @@ class StringExpressionHandlerImpl implements StringExpressionHandler {
     }
 
     @Override
-    public int getOperandStartIndex(String operation, int opIndex) {
+    public int getFirstOperandStartIndex(String operation, int opIndex) {
         var firstIndex = opIndex - 1;
         while (firstIndex > 0 && (operation.charAt(firstIndex - 1) == '.' || Character.isDigit(operation.charAt(firstIndex - 1)))) {
             firstIndex--;

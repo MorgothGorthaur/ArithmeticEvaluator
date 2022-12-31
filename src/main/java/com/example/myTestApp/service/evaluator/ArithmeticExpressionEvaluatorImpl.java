@@ -39,8 +39,8 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     }
 
     private String doOperation(OperationType operationType, int opIndex, String operation) {
-        var leftOperandStartIndex = handler.getOperandStartIndex(operation, opIndex);
-        var rightOperandEndIndex = handler.getOperandEndIndex(operation, opIndex);
+        var leftOperandStartIndex = handler.getFirstOperandStartIndex(operation, opIndex);
+        var rightOperandEndIndex = handler.getSecondOperandEndIndex(operation, opIndex);
         var firstOperand = handler.getOperand(operation, leftOperandStartIndex, opIndex);
         var lastOperand = handler.getOperand(operation, opIndex + 1, rightOperandEndIndex);
         var res = operation.substring(0, leftOperandStartIndex) + "+";

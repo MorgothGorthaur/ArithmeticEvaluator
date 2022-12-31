@@ -1,8 +1,6 @@
 package com.example.myTestApp.service.evaluator;
 
 import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.service.evaluator.StringExpressionHandler;
-import com.example.myTestApp.service.evaluator.StringExpressionHandlerImpl;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 
@@ -46,23 +44,56 @@ class StringExpressionHandlerTest {
             handler.getOperand(operation, 0, 2);
         });
         assertEquals(exception.getMessage(), "bad operand");
-
-
     }
 
     @Test
     void removeDoubleSymbolsAndSpaces() {
+        var expression = "2    --2  + -2 -+2 ++2";
+        var res = handler.removeDoubleSymbolsAndSpaces(expression);
+        assertEquals(res, "2+2-2-2+2");
     }
 
     @Test
-    void getOperandEndIndex() {
+    void getSecondOperandEndIndex() {
+        var operation = "2+2";
+        var res = handler.getSecondOperandEndIndex(operation, 1);
+        assertEquals(res, 3);
+
+        operation = "2+2+2";
+        res = handler.getSecondOperandEndIndex(operation,1);
+        assertEquals(res, 3);
+
+        operation = "2+2.5+2";
+        res = handler.getSecondOperandEndIndex(operation,1);
+        assertEquals(res, 5);
     }
 
     @Test
-    void getOperandStartIndex() {
+    void getFirstOperandStartIndex() {
+        var operation = "2+2";
+        var res = handler.getFirstOperandStartIndex(operation, 1);
+        assertEquals(res, 0);
+
+        operation = "2+2+2";
+        res = handler.getFirstOperandStartIndex(operation,3);
+        assertEquals(res, 2);
+
+        operation = "2-2+2";
+        res = handler.getFirstOperandStartIndex(operation,3);
+        assertEquals(res, 1);
+
+        operation = "2+2.5+2";
+        res = handler.getFirstOperandStartIndex(operation,5);
+        assertEquals(res, 2);
     }
 
     @Test
-    void checkIfExpressionContainsBrackets() {
+    void getCheckIfExpressionDoesntMissedBrackets() {
+        var expression = "(())";
+        handler.checkIfExpressionDoesntMissedBrackets(expression);
+
+        expression = "()(";
+
     }
+
 }

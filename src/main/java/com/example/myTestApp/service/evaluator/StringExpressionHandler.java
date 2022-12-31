@@ -8,9 +8,9 @@ public interface StringExpressionHandler {
 
     String removeDoubleSymbolsAndSpaces(String string);
 
-    int getOperandEndIndex(String operation, int opIndex);
+    int getSecondOperandEndIndex(String operation, int opIndex);
 
-    int getOperandStartIndex(String operation, int opIndex);
+    int getFirstOperandStartIndex(String operation, int opIndex);
 
     boolean checkIfExpressionContainsBrackets(String exp);
     void checkIfExpressionDoesntMissedBrackets(String expression);
