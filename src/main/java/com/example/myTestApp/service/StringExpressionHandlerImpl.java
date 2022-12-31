@@ -21,8 +21,6 @@ class StringExpressionHandlerImpl implements StringExpressionHandler {
 
     @Override
     public double getOperand(String operation, int startIndex, int endIndex) {
-        if (operation.contains("(")) throw new MissedRightBracketException();
-        if (operation.contains(")")) throw new MissedLeftBracketException();
         if (operation.equals("")) return 0;
         try {
             return Double.parseDouble(operation.substring(startIndex, endIndex));
@@ -30,7 +28,18 @@ class StringExpressionHandlerImpl implements StringExpressionHandler {
             throw new BadOperandException();
         }
     }
-
+    @Override
+    public void checkIfExpressionDoesntMissedBrackets(String expression) {
+        var arr = expression.toCharArray();
+        var leftBracketsNum = 0;
+        var rightBracketsNum = 0;
+        for(var ch : arr) {
+            if(ch == '(') leftBracketsNum ++;
+            if(ch == ')') rightBracketsNum ++;
+        }
+        if(leftBracketsNum > rightBracketsNum) throw new MissedRightBracketException();
+        if(rightBracketsNum > leftBracketsNum) throw new MissedLeftBracketException();
+    }
     @Override
     public String removeDoubleSymbolsAndSpaces(String string) {
         if (string.length() > 0 && string.charAt(0) == '+') string = string.substring(1);
@@ -61,7 +70,7 @@ class StringExpressionHandlerImpl implements StringExpressionHandler {
 
     @Override
     public boolean checkIfExpressionContainsBrackets(String exp) {
-        return exp.contains("(") && exp.contains(")");
+        return exp.contains("(") || exp.contains(")");
     }
 
     private int[] getBracketIndexes(String expression) {

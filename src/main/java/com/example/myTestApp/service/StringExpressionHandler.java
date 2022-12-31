@@ -13,4 +13,5 @@ public interface StringExpressionHandler {
     int getOperandStartIndex(String operation, int opIndex);
 
     boolean checkIfExpressionContainsBrackets(String exp);
+    void checkIfExpressionDoesntMissedBrackets(String expression);
 }

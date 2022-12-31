@@ -1,5 +1,7 @@
 package com.example.myTestApp.service;
 
+import com.example.myTestApp.exception.MissedLeftBracketException;
+import com.example.myTestApp.exception.MissedRightBracketException;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     @Override
     public double getEvaluation(String arithmeticExpression) {
         if (handler.checkIfExpressionContainsBrackets(arithmeticExpression)) {
+            handler.checkIfExpressionDoesntMissedBrackets(arithmeticExpression);
             arithmeticExpression = simplifyExpression(handler.removeDoubleSymbolsAndSpaces(arithmeticExpression));
         }
         var res = evaluateExpression(handler.removeDoubleSymbolsAndSpaces(arithmeticExpression));
@@ -46,4 +49,5 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         res += operationType.doOperation(firstOperand, lastOperand) + operation.substring(rightOperandEndIndex);
         return handler.removeDoubleSymbolsAndSpaces(res);
     }
+
 }
