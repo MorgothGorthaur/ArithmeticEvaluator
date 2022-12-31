@@ -1,9 +1,5 @@
 package com.example.myTestApp.service;
-
-import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.exception.MissedLeftBracketException;
-import com.example.myTestApp.exception.MissedRightBracketException;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,8 +42,10 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     private String doOperation(OperationType operationType, int opIndex, String expression) {
         var leftOperandStartIndex = handler.getOperandStartIndex(expression, opIndex);
         var rightOperandEndIndex = handler.getOperandEndIndex(expression, opIndex);
+        var firstOperand = handler.getOperand(expression, leftOperandStartIndex, opIndex);
+        var lastOperand = handler.getOperand(expression, opIndex + 1, rightOperandEndIndex);
         var res = expression.substring(0, leftOperandStartIndex) + "+";
-        res += operationType.doOperation(handler.getOperand(expression, leftOperandStartIndex, opIndex), handler.getOperand(expression, opIndex + 1, rightOperandEndIndex)) + expression.substring(rightOperandEndIndex);
+        res += operationType.doOperation(firstOperand, lastOperand) + expression.substring(rightOperandEndIndex);
         return handler.removeDoubleSymbolsAndSpaces(res);
     }
 }
