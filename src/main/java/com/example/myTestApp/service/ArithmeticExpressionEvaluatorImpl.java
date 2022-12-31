@@ -42,7 +42,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
 
     private String doOperation(OperationType operationType, int opIndex, String expression) {
         var indexes = getOperandValuesIndexes(expression, opIndex);
-        var firstOperand = indexes[0] == -1 ? 0 : getOperand(expression, indexes[0], opIndex);
+        var firstOperand = getOperand(expression, indexes[0], opIndex);
         var lastOperand = getOperand(expression, opIndex + 1, indexes[1]);
         var res = indexes[0] == -1 ? "" : expression.substring(0, indexes[0]);
         res += "+" + operationType.doOperation(firstOperand, lastOperand) + expression.substring(indexes[1]);
@@ -77,16 +77,10 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
 
     private int getFirstOperandIndex(String expression, int opIndex) {
         var firstIndex = opIndex - 1;
-        if (firstIndex == -1 && (expression.charAt(opIndex) == '*' || expression.charAt(opIndex) == '/')) {
-            throw new BadOperandException();
-        }
-        while (firstIndex - 1 > -1 && (expression.charAt(firstIndex - 1) == '.' || Character.isDigit(expression.charAt(firstIndex - 1)))) {
+        while (firstIndex > 0  && (expression.charAt(firstIndex - 1) == '.' || Character.isDigit(expression.charAt(firstIndex - 1)))) {
             firstIndex--;
         }
-        if (firstIndex - 1 > -1 && expression.charAt(firstIndex - 1) == '-') {
-            firstIndex--;
-        }
-        return firstIndex;
+        return firstIndex > 0 && expression.charAt(firstIndex-1) == '-' ? firstIndex-1 : firstIndex;
     }
 
     private double getOperand(String expression, int firstIndex, int lastIndex) {
