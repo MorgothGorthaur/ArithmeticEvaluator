@@ -76,26 +76,12 @@ class StringExpressionHandlerImpl implements StringExpressionHandler {
     private int[] getBracketIndexes(String expression) {
         var firstBracketIndex = expression.indexOf("(");
         var lastBracketIndex = firstBracketIndex + 1;
-        checkIfLeftBracketIsMissed(expression, firstBracketIndex);
         while (lastBracketIndex < expression.length() && expression.charAt(lastBracketIndex) != ')') {
             if (expression.charAt(lastBracketIndex) == '(') {
                 firstBracketIndex = lastBracketIndex;
             }
             lastBracketIndex++;
         }
-        checkIfRightBracketIsMissed(expression, lastBracketIndex);
         return new int[]{firstBracketIndex, lastBracketIndex};
-    }
-
-    private void checkIfRightBracketIsMissed(String expression, int lastBracketIndex) {
-        if (expression.charAt(lastBracketIndex) != ')') {
-            throw new MissedRightBracketException();
-        }
-    }
-
-    private void checkIfLeftBracketIsMissed(String expression, int firstBracketIndex) {
-        if (expression.indexOf(")") < firstBracketIndex) {
-            throw new MissedLeftBracketException();
-        }
     }
 }
