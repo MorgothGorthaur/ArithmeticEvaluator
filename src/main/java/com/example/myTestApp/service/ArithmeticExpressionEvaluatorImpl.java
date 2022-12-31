@@ -46,6 +46,7 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
         var lastOperand = getOperand(expression, opIndex + 1, indexes[1]);
         var res = indexes[0] == -1 ? "" : expression.substring(0, indexes[0]);
         res += "+" + operationType.doOperation(firstOperand, lastOperand) + expression.substring(indexes[1]);
+
         return removeDoubleSymbolsAndSpaces(res);
     }
 
@@ -74,7 +75,21 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     private boolean checkIfExpressionContainsBrackets(String exp) {
         return exp.contains("(") && exp.contains(")");
     }
-
+    private double getLeftOperand(String expression, int endIndex) {
+        var firstIndex = endIndex -1;
+        while (firstIndex > 0  && (expression.charAt(firstIndex - 1) == '.' || Character.isDigit(expression.charAt(firstIndex - 1)))) {
+            firstIndex--;
+        }
+        firstIndex = firstIndex > 0 && expression.charAt(firstIndex-1) == '-' ? firstIndex-1 : firstIndex;
+        return getOperand(expression, firstIndex, endIndex);
+    }
+    private double getRightOperand(String expression, int firstIndex) {
+        var endIndex = firstIndex + 1;
+        while (endIndex + 1 < expression.length() && (expression.charAt(endIndex + 1) == '.' || Character.isDigit(expression.charAt(endIndex + 1)))) {
+            endIndex++;
+        }
+        return getOperand(expression, firstIndex, endIndex);
+    }
     private int getFirstOperandIndex(String expression, int opIndex) {
         var firstIndex = opIndex - 1;
         while (firstIndex > 0  && (expression.charAt(firstIndex - 1) == '.' || Character.isDigit(expression.charAt(firstIndex - 1)))) {
