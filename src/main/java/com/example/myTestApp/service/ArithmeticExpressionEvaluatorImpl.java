@@ -3,28 +3,31 @@ package com.example.myTestApp.service;
 import com.example.myTestApp.exception.BadOperandException;
 import com.example.myTestApp.exception.MissedLeftBracketException;
 import com.example.myTestApp.exception.MissedRightBracketException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator {
+    private final StringExpressionHandler handler;
     @Override
     public double getEvaluation(String arithmeticExpression) {
-        if (checkIfExpressionContainsBrackets(arithmeticExpression)) {
-            arithmeticExpression = simplifyExpression(removeDoubleSymbolsAndSpaces(arithmeticExpression));
+        if (handler.checkIfExpressionContainsBrackets(arithmeticExpression)) {
+            arithmeticExpression = simplifyExpression(handler.removeDoubleSymbolsAndSpaces(arithmeticExpression));
         }
-        var res = evaluateExpression(removeDoubleSymbolsAndSpaces(arithmeticExpression));
-        return getOperand(res, 0, res.length());
+        var res = evaluateExpression(handler.removeDoubleSymbolsAndSpaces(arithmeticExpression));
+        return handler.getOperand(res, 0, res.length());
     }
     private String simplifyExpression(String expression) {
-        var bracketIndexes = getBracketsIndexes(expression);
+        var bracketIndexes = handler.getBracketIndexes(expression);
         if (bracketIndexes[0] - 1 >= 0 && Character.isDigit(expression.charAt(bracketIndexes[0] - 1))) {
             expression = expression.substring(0, bracketIndexes[0]) + '*' + expression.substring(bracketIndexes[0]);
             bracketIndexes[0] += 1;
             bracketIndexes[1] += 1;
         }
         var subExpression =  String.valueOf(evaluateExpression(expression.substring(bracketIndexes[0] + 1, bracketIndexes[1])));
-        var res = removeDoubleSymbolsAndSpaces(expression.substring(0, bracketIndexes[0]) + subExpression +  expression.substring(bracketIndexes[1] + 1));
-        return checkIfExpressionContainsBrackets(res) ? simplifyExpression(res) : res;
+        var res = handler.removeDoubleSymbolsAndSpaces(expression.substring(0, bracketIndexes[0]) + subExpression +  expression.substring(bracketIndexes[1] + 1));
+        return handler.checkIfExpressionContainsBrackets(res) ? simplifyExpression(res) : res;
     }
     private String evaluateExpression(String expression) {
         var opIndexes = new int[]{expression.indexOf('*'), expression.indexOf('/'), expression.indexOf('+'), expression.lastIndexOf('-')};
@@ -41,74 +44,10 @@ class ArithmeticExpressionEvaluatorImpl implements ArithmeticExpressionEvaluator
     }
 
     private String doOperation(OperationType operationType, int opIndex, String expression) {
-        var leftOperandStartIndex = getOperandStartIndex(expression, opIndex);
-        var rightOperandEndIndex = getOperandEndIndex(expression, opIndex);
+        var leftOperandStartIndex = handler.getOperandStartIndex(expression, opIndex);
+        var rightOperandEndIndex = handler.getOperandEndIndex(expression, opIndex);
         var res = expression.substring(0, leftOperandStartIndex) + "+";
-        res += operationType.doOperation(getOperand(expression, leftOperandStartIndex, opIndex), getOperand(expression, opIndex + 1, rightOperandEndIndex)) + expression.substring(rightOperandEndIndex);
-        return removeDoubleSymbolsAndSpaces(res);
-    }
-
-    private String removeDoubleSymbolsAndSpaces(String string) {
-        if (string.length() >0 && string.charAt(0) == '+') string = string.substring(1);
-        return string.strip().replaceAll("\\ ", "")
-                .replaceAll("--", "+")
-                .replaceAll("\\+-", "-")
-                .replaceAll("-\\+", "-")
-                .replaceAll("\\++", "+");
-    }
-    private int getOperandEndIndex(String expression, int opIndex) {
-        var lastIndex = opIndex + 1;
-        while (lastIndex+1  < expression.length() && (expression.charAt(lastIndex + 1) == '.' || Character.isDigit(expression.charAt(lastIndex + 1)))) {
-            lastIndex++;
-        }
-        return lastIndex+1;
-    }
-    private int getOperandStartIndex(String expression, int opIndex) {
-        var firstIndex = opIndex - 1;
-        while (firstIndex > 0  && (expression.charAt(firstIndex - 1) == '.' || Character.isDigit(expression.charAt(firstIndex - 1)))) {
-            firstIndex--;
-        }
-        return firstIndex > 0 && expression.charAt(firstIndex-1) == '-' ? firstIndex-1 : firstIndex;
-    }
-
-    private boolean checkIfExpressionContainsBrackets(String exp) {
-        return exp.contains("(") && exp.contains(")");
-    }
-
-
-    private double getOperand(String expression, int startIndex, int endIndex) {
-        if (expression.contains("(")) throw new MissedRightBracketException();
-        if (expression.contains(")")) throw new MissedLeftBracketException();
-        if(expression.equals("")) return 0;
-        try {
-            return Double.parseDouble(expression.substring(startIndex, endIndex));
-        } catch (RuntimeException ex) {
-            throw new BadOperandException();
-        }
-    }
-
-    private void checkIfRightBracketIsMissed(String expression, int lastBracketIndex) {
-        if (expression.charAt(lastBracketIndex) != ')') {
-            throw new MissedRightBracketException();
-        }
-    }
-
-    private void checkIfLeftBracketIsMissed(String expression, int firstBracketIndex) {
-        if (expression.indexOf(")") < firstBracketIndex) {
-            throw new MissedLeftBracketException();
-        }
-    }
-    private int[] getBracketsIndexes(String expression) {
-        var firstBracketIndex = expression.indexOf("(");
-        var lastBracketIndex = firstBracketIndex + 1;
-        checkIfLeftBracketIsMissed(expression, firstBracketIndex);
-        while (lastBracketIndex < expression.length() && expression.charAt(lastBracketIndex) != ')') {
-            if (expression.charAt(lastBracketIndex) == '(') {
-                firstBracketIndex = lastBracketIndex;
-            }
-            lastBracketIndex++;
-        }
-        checkIfRightBracketIsMissed(expression, lastBracketIndex);
-        return new int[]{firstBracketIndex, lastBracketIndex};
+        res += operationType.doOperation(handler.getOperand(expression, leftOperandStartIndex, opIndex), handler.getOperand(expression, opIndex + 1, rightOperandEndIndex)) + expression.substring(rightOperandEndIndex);
+        return handler.removeDoubleSymbolsAndSpaces(res);
     }
 }

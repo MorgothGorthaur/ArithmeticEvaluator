@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 class ArithmeticExpressionEvaluatorImplTest {
-    final ArithmeticExpressionEvaluator arithmeticExpressionEvaluator = new ArithmeticExpressionEvaluatorImpl();
+    final StringExpressionHandler handler = new StringExpressionHandlerImpl();
+    final ArithmeticExpressionEvaluator arithmeticExpressionEvaluator = new ArithmeticExpressionEvaluatorImpl(handler);
     @Test
     void getEvaluation_basicArithmeticOperations() {
         var expression = "2+2";
