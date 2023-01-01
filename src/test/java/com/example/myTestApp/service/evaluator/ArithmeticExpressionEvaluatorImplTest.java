@@ -1,9 +1,6 @@
 package com.example.myTestApp.service.evaluator;
 
-import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.exception.DivisionByZeroException;
-import com.example.myTestApp.exception.MissedLeftBracketException;
-import com.example.myTestApp.exception.MissedRightBracketException;
+import com.example.myTestApp.exception.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -126,8 +123,16 @@ class ArithmeticExpressionEvaluatorImplTest {
         });
         assertEquals(exception.getMessage(), "bad operand");
     }
-@Test
-void getEvaluation_shouldThrow
+
+    @Test
+    void getEvaluation_shouldThrowEmptyExpressionException() {
+        var expression = "((()()))";
+        var exception = assertThrows(EmptyExpressionException.class, () -> {
+            arithmeticExpressionEvaluator.getEvaluation(expression);
+        });
+        assertEquals(exception.getMessage(), "empty expression");
+    }
+
     @Test
     void getEvaluation_shouldThrowMissedLeftBracketException() {
         var expression = "2 + (3 + 5 *7))";
