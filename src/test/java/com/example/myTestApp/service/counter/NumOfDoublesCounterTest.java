@@ -1,6 +1,4 @@
-package com.example.myTestApp.service;
-
-import lombok.RequiredArgsConstructor;
+package com.example.myTestApp.service.counter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

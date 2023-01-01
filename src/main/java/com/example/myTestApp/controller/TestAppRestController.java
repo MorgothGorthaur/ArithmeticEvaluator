@@ -4,8 +4,8 @@ package com.example.myTestApp.controller;
 import com.example.myTestApp.exception.ExpressionNotFoundException;
 import com.example.myTestApp.model.Expression;
 import com.example.myTestApp.repository.ExpressionRepository;
-import com.example.myTestApp.service.ArithmeticExpressionEvaluator;
-import com.example.myTestApp.service.NumOfDoublesCounter;
+import com.example.myTestApp.service.evaluator.ArithmeticExpressionEvaluator;
+import com.example.myTestApp.service.counter.NumOfDoublesCounter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +21,7 @@ public class TestAppRestController {
 
     @PostMapping
     public Expression getResult(@RequestBody Expression expression) {
+        expression.setId(null);
         expression.setNumOfDoubles(counter.count(expression.getArithmeticExpression()));
         expression.setResult(evaluator.getEvaluation(expression.getArithmeticExpression()));
         repository.save(expression);
