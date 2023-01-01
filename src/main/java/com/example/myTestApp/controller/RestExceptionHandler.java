@@ -20,7 +20,7 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({BadOperandException.class, MissedRightBracketException.class, MissedLeftBracketException.class, DivisionByZeroException.class})
+    @ExceptionHandler({BadOperandException.class, MissedRightBracketException.class, MissedLeftBracketException.class, DivisionByZeroException.class, EmptyExpression.class})
     public ResponseEntity<Object> handleInvalidArgument(RuntimeException ex) {
         ApiError apiError = new ApiError("validation error", ex.getMessage());
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);

@@ -1,6 +1,7 @@
 package com.example.myTestApp.service.evaluator;
 
 import com.example.myTestApp.exception.BadOperandException;
+import com.example.myTestApp.exception.EmptyExpression;
 import com.example.myTestApp.exception.MissedLeftBracketException;
 import com.example.myTestApp.exception.MissedRightBracketException;
 import org.springframework.stereotype.Component;
@@ -22,9 +23,9 @@ class StringExpressionHandlerImpl implements StringExpressionHandler {
     @Override
     public double getOperand(String operation, int startIndex, int endIndex) {
 
-        if (operation.equals("")) {
-            return 0;
-        } else if(operation.charAt(operation.length() -1) == 'd' || operation.charAt(operation.length() -1) == 'f') throw new BadOperandException();
+        if(operation.equals("")) throw new EmptyExpression();
+        if(operation.charAt(operation.length() -1) == 'd' || operation.charAt(operation.length() -1) == 'f') throw new BadOperandException();
+        if(operation.length() > startIndex && operation.charAt(startIndex) == '.') throw new BadOperandException();
         try {
             return Double.parseDouble(operation.substring(startIndex, endIndex));
         } catch (RuntimeException ex) {
