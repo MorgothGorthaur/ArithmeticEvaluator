@@ -2,7 +2,6 @@ package com.example.myTestApp.controller;
 
 
 import com.example.myTestApp.exception.*;
-import com.example.myTestApp.model.ApiError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -44,4 +43,7 @@ public class RestExceptionHandler {
         ApiError apiError = new ApiError("No Handler Found", ex.getMessage());
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
+}
+
+record ApiError(String message, String debugMessage) {
 }
