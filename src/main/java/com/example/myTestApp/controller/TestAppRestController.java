@@ -21,6 +21,7 @@ public class TestAppRestController {
 
     @PostMapping
     public Expression getResult(@RequestBody Expression expression) {
+        expression.setId(null);
         expression.setNumOfDoubles(counter.count(expression.getArithmeticExpression()));
         expression.setResult(evaluator.getEvaluation(expression.getArithmeticExpression()));
         repository.save(expression);
