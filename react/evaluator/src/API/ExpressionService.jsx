@@ -7,7 +7,30 @@ export default class ExpressionService {
             alert(e);
         }
     };
-
+    static async getByResult(res) {
+        try {
+            const response = await fetch('http://localhost:8080/task/all/' + res);
+            return await response.json();
+        } catch (e) {
+            alert(e);
+        }
+    };
+    static async getWithLowerResults(res) {
+        try {
+            const response = await fetch('http://localhost:8080/task/all/lower/' + res);
+            return await response.json();
+        } catch (e) {
+            alert(e);
+        }
+    };
+    static async getWithUpperResults(res) {
+        try {
+            const response = await fetch('http://localhost:8080/task/all/upper/' + res);
+            return await response.json();
+        } catch (e) {
+            alert(e);
+        }
+    };
     static async addExpression(arithmeticExpression) {
         try {
             const requestOptions = {
