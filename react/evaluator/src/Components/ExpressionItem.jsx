@@ -9,9 +9,9 @@ const ExpressionItem = ({expression, update}) => {
     }
     return (
         <div className="item">
-            <h1> expression = {expression.arithmeticExpression} </h1>
-            <h2> result =  {expression.result} </h2>
-            <h2> numOfDoubles = {expression.numOfDoubles} </h2>
+            <h3> expression = {expression.arithmeticExpression} </h3>
+            <h3> result =  {expression.result} </h3>
+            <h3> num of doubles = {expression.numOfDoubles} </h3>
             <Button onClick={() => setShow(true)}> change </Button>
             <Modal show={show} onHide={setShow}><ExpressionForm expression={expression} CreateOrUpdate={change} /> </Modal>
         </div>
