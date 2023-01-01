@@ -35,10 +35,10 @@ const ExpressionForm = ({expression, CreateOrUpdate}) => {
                 <Button type="submit"> {expression ? "update" : "create"} </Button>
             </Form>
             {expression ? (
-                <>
-                    <h1> result = {expression.result} </h1>
-                    <h1> numOfDoubles = {expression.numOfDoubles}</h1>
-                </>
+                <div className="item">
+                    <h3> result = {expression.result} </h3>
+                    <h3> num of doubles = {expression.numOfDoubles}</h3>
+                </div>
             ) : (
                 <>
                 </>
