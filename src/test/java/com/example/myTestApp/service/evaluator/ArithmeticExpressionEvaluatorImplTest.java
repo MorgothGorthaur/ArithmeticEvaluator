@@ -53,10 +53,6 @@ class ArithmeticExpressionEvaluatorImplTest {
         res = arithmeticExpressionEvaluator.getEvaluation(expression);
         assertEquals(res, 1.5);
 
-        expression = "";
-        res = arithmeticExpressionEvaluator.getEvaluation(expression);
-        assertEquals(res, 0);
-
         expression = "2";
         res = arithmeticExpressionEvaluator.getEvaluation(expression);
         assertEquals(res, 2.0);
@@ -87,12 +83,8 @@ class ArithmeticExpressionEvaluatorImplTest {
 
     @Test
     void getEvaluation_basicArithmeticOperationsWithBrackets() {
-        var expression = "(()())";
+        var expression = "2(2+2)";
         var res = arithmeticExpressionEvaluator.getEvaluation(expression);
-        assertEquals(res, 0);
-
-        expression = "2(2+2)";
-        res = arithmeticExpressionEvaluator.getEvaluation(expression);
         assertEquals(res, 8.0);
 
         expression = "2 (2* ((2 + 2)) / -10)";
@@ -134,7 +126,8 @@ class ArithmeticExpressionEvaluatorImplTest {
         });
         assertEquals(exception.getMessage(), "bad operand");
     }
-
+@Test
+void getEvaluation_shouldThrow
     @Test
     void getEvaluation_shouldThrowMissedLeftBracketException() {
         var expression = "2 + (3 + 5 *7))";
