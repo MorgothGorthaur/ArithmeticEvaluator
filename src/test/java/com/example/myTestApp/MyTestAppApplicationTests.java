@@ -24,6 +24,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -105,5 +106,35 @@ class MyTestAppApplicationTests {
                 .andExpect(jsonPath("$", hasSize(1)));
     }
 
+    @Test
+    public void updateExpression_shouldThrowExpressionNotFoundException() throws Exception{
+        var expression = new LinkedList<>(repository.findAll()).getLast();
+        expression.setId(expression.getId() +1);
+        this.mockMvc.perform(patch("/task")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(expression)))
+                .andExpect(jsonPath("message", equalTo("entity not found exception")))
+                .andExpect(jsonPath("debugMessage", equalTo("expression not found! id = " + expression.getId())));
+    }
+
+    @Test
+    public void updateExpression_shouldThrowHandleHttpMessageNotReadable() throws Exception{
+        this.mockMvc.perform(patch("/task")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString("abracadabra")))
+                .andExpect(jsonPath("message", equalTo("Malformed JSON Request")));
+    }
+    @Test
+    public void getExpressionsWithLowerResults_shouldThrowHandleMethodArgumentTypeMismatchException() throws Exception {
+        this.mockMvc.perform(get("/task/all/lower/d")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("message", equalTo("bad argument type")));
+    }
+
+    @Test
+    public void handleNoHandlerFoundException() throws Exception {
+        this.mockMvc.perform(get("/task/snr"))
+                .andExpect(status().isNotFound());
+    }
 
 }
