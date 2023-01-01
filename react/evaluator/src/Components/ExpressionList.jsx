@@ -63,7 +63,7 @@ const ExpressionList = () => {
             <div className="item">
                 <Input type="number" placeHolder="result" value={result}
                        onChange={e => setResult(e.target.value)}/>
-                <select onChange={(e) => customFind(e.target.value)}>
+                <select className="select" onChange={(e) => customFind(e.target.value)}>
                     <option value="all">find all</option>
                     <option value="by_result">find by result</option>
                     <option value="upper_then_result">find with higher results </option>
@@ -88,7 +88,9 @@ const ExpressionList = () => {
                         )}
                     </div>
                 )}
+                <div style={{display: 'flex', justifyContent: 'center'}}>
                 <Button onClick={() => setShow(true)}> add </Button>
+                </div>
             </div>
             <Modal show={show} onHide={setShow}> <ExpressionForm CreateOrUpdate={add}/> </Modal>
         </div>

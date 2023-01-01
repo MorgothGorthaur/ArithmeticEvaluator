@@ -38,7 +38,13 @@
     padding: 25px;
 
 }
+.select {
+    word-wrap: break-word;
+    max-width: 500px;
+    margin: auto;
+    padding: 10px;
 
+}
 .form {
     padding-left: 25px;
     padding-right: 25px;
