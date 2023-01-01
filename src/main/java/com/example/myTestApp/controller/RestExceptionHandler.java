@@ -43,7 +43,7 @@ public class RestExceptionHandler {
         ApiError apiError = new ApiError("No Handler Found", ex.getMessage());
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
+    record ApiError(String message, String debugMessage) {
+    }
 }
 
-record ApiError(String message, String debugMessage) {
-}

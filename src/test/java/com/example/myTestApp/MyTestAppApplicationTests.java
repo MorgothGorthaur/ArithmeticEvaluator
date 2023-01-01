@@ -14,13 +14,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
@@ -72,5 +76,34 @@ class MyTestAppApplicationTests {
                 .andExpect(jsonPath("result", equalTo(30.0)))
                 .andExpect(jsonPath("numOfDoubles", equalTo(3)));
     }
+
+    @Test
+    public void getExpressions() throws Exception {
+        this.mockMvc.perform(get("/task/all")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    public void getExpressionsByResult() throws Exception {
+        this.mockMvc.perform(get("/task/all/6.0")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    public void getExpressionsWithLowerResults() throws Exception {
+        this.mockMvc.perform(get("/task/all/lower/5")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    public void getExpressionsWithUpperResults() throws Exception {
+        this.mockMvc.perform(get("/task/all/upper/5")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)));
+    }
+
 
 }
