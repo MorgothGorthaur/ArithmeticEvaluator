@@ -20,7 +20,9 @@ const ExpressionList = () => {
         setExpressions([...expressions, data]);
         setShow(false);
     }
-
+    const update = (data) => {
+           setExpressions([...expressions.filter(ex => ex.id !== data.id), data]);
+    }
     async function fetchExpressions() {
         setExpressions(await ExpressionService.getAll());
     }
@@ -37,7 +39,7 @@ const ExpressionList = () => {
                         {expressions.length ? (
                             <div>
                                 {expressions.map(expression =>
-                                    <ExpressionItem expression={expression}/>
+                                    <ExpressionItem expression={expression} update={update}/>
                                 )}
                             </div>
                         ) : (

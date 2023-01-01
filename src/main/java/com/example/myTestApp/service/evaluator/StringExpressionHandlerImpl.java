@@ -21,6 +21,7 @@ class StringExpressionHandlerImpl implements StringExpressionHandler {
 
     @Override
     public double getOperand(String operation, int startIndex, int endIndex) {
+        if(operation.charAt(operation.length() -1) == 'd' || operation.charAt(operation.length() -1) == 'f') throw new BadOperandException();
         if (operation.equals("")) return 0;
         try {
             return Double.parseDouble(operation.substring(startIndex, endIndex));

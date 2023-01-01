@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, Form} from 'react-bootstrap';
 import Input from "../UI/Input/Input";
 import ExpressionService from "../API/ExpressionService";
 
 const ExpressionForm = ({expression, CreateOrUpdate}) => {
     const [arithmeticExpression, setArithmeticExpression] = useState('');
-    const [result, setResult] = useState(0);
-    const [numOfDoubles, setNumOfDoubles] = useState(0);
-    const update = () => {
+    const update = (e) => {
+        e.preventDefault();
+        ExpressionService.changeExpression(expression.id, arithmeticExpression).then(data => {
+            validation(data);
+        })
     };
     const add = (e) => {
         e.preventDefault();
@@ -17,8 +19,14 @@ const ExpressionForm = ({expression, CreateOrUpdate}) => {
     };
 
     const validation = (data) => {
-        data.debugMessage ? alert(data.message) : CreateOrUpdate(data);
+        data.debugMessage ? alert(data.debugMessage) : CreateOrUpdate(data);
     }
+
+    useEffect(() => {
+        if (expression) {
+            setArithmeticExpression(expression.arithmeticExpression)
+        }
+    }, [expression])
     return (
         <div>
             <Form className="form" onSubmit={expression ? update : add}>
@@ -28,8 +36,8 @@ const ExpressionForm = ({expression, CreateOrUpdate}) => {
             </Form>
             {expression ? (
                 <>
-                    <h1> result = {result} </h1>
-                    <h1> numOfDoubles = {numOfDoubles}</h1>
+                    <h1> result = {expression.result} </h1>
+                    <h1> numOfDoubles = {expression.numOfDoubles}</h1>
                 </>
             ) : (
                 <>

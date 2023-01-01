@@ -21,4 +21,18 @@ export default class ExpressionService {
             alert(e);
         }
     }
+
+    static async changeExpression(id, arithmeticExpression) {
+        try {
+            const requestOptions = {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id : id, arithmeticExpression: arithmeticExpression})
+            };
+            const response = await fetch('http://localhost:8080/task', requestOptions);
+            return await response.json();
+        } catch (e) {
+            alert(e);
+        }
+    }
 };
