@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/task")
+@CrossOrigin("*")
 public class TestAppRestController {
     private final ExpressionRepository repository;
     private final ArithmeticExpressionEvaluator evaluator;
