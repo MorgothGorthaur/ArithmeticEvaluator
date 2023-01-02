@@ -11,13 +11,14 @@ public class LexerImpl implements Lexer {
     @Override
     public List<Lexeme> toLexemeList(String receivedString) {
         var expression = removeDoubleOperatorsAndSpaces(receivedString);
-        return getLexeme(expression);
+        return getLexemes(expression);
     }
 
-    private List<Lexeme> getLexeme(String expression) {
+    private List<Lexeme> getLexemes(String expression) {
         var lexemes = new LinkedList<Lexeme>();
-        if (expression.length() != 0) {
-            switch (expression.charAt(0)) {
+        var iterator = 0;
+        while (iterator + 1 < expression.length()) {
+            switch (expression.charAt(iterator)) {
                 case '(' -> lexemes.add(new Lexeme(OperationType.LEFT_BRACKET));
                 case ')' -> lexemes.add(new Lexeme(OperationType.RIGHT_BRACKET));
                 case '*' -> lexemes.add(new Lexeme(OperationType.MULTIPLICATION));
@@ -25,20 +26,20 @@ public class LexerImpl implements Lexer {
                 case '+' -> lexemes.add(new Lexeme(OperationType.ADDITION));
                 case '-' -> lexemes.add(new Lexeme(OperationType.SUBTRACTION));
                 default -> {
-                    var index = getLastLexemeIndex(expression);
-                    var operand = index == 0 ? String.valueOf(expression.charAt(index)) : expression.substring(0, index);
+                    var index = getLastLexemeIndex(expression, iterator);
+                    var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
                     lexemes.add(new Lexeme(Double.parseDouble(operand)));
-                    expression = index == 0 ? expression : expression.substring(index-1);
+                    iterator = index-1;
                 }
             }
-            lexemes.addAll(getLexeme(expression.substring(1)));
+            iterator++;
         }
         return lexemes;
     }
 
-    private Integer getLastLexemeIndex(String expression) {
+    private Integer getLastLexemeIndex(String expression, Integer iterator) {
         var charArr = expression.toCharArray();
-        var lastLexemeIndex = 0;
+        var lastLexemeIndex = iterator;
         while (lastLexemeIndex + 1 < charArr.length && (Character.isDigit(charArr[lastLexemeIndex]) || charArr[lastLexemeIndex] == '.')) {
             lastLexemeIndex++;
         }

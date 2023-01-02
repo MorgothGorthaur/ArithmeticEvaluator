@@ -9,7 +9,7 @@ class LexerTest {
 
     @Test
     void toLexemeList() {
-        var expression = "5*+1(+) +4";
+        var expression = "5*+1(+2.55) +4";
         var res = lexer.toLexemeList(expression);
         System.out.println(res);
     }
