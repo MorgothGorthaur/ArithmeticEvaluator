@@ -27,3 +27,5 @@ Samples of correct expressions - "2(2+2)" is same as "2*(2+2)", "2*((2+2))" is s
  <div> Java 17 </div>
  <div> MariaDB </div>
  <div> Maven </div>
+ ![image](https://user-images.githubusercontent.com/58920821/210229327-9512a05e-d717-4936-aa7c-185caf3a5263.png)
+
