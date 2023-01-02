@@ -1,12 +1,9 @@
 package com.example.myTestApp.service.updatedevaluator.lexer.lexeme;
-
-import lombok.*;
-
-@AllArgsConstructor
-@RequiredArgsConstructor
-@ToString
-public class Lexeme {
-    @Getter @Setter
-    private Double operand;
-    private final OperationType operationType;
+public record Lexeme(Double operand, OperationType operationType) {
+    public Lexeme(OperationType operationType) {
+        this(null, operationType);
+    }
+    public Lexeme(Double operand) {
+        this(operand, OperationType.OPERAND);
+    }
 }

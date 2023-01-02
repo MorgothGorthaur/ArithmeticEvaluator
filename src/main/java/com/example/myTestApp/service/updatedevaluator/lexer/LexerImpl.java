@@ -27,7 +27,7 @@ public class LexerImpl implements Lexer {
                 default -> {
                     var index = getLastLexemeIndex(expression);
                     var operand = index == 0 ? String.valueOf(expression.charAt(index)) : expression.substring(0, index);
-                    lexemes.add(new Lexeme(Double.parseDouble(operand), OperationType.OPERAND));
+                    lexemes.add(new Lexeme(Double.parseDouble(operand)));
                     expression = index == 0 ? expression : expression.substring(index-1);
                 }
             }
