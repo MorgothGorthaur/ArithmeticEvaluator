@@ -1,55 +1,54 @@
 package com.example.myTestApp.service.updatedevaluator.lexer;
 
 import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.service.updatedevaluator.lexer.lexeme.Lexeme;
-import com.example.myTestApp.service.updatedevaluator.lexer.lexeme.OperationType;
+import com.example.myTestApp.service.updatedevaluator.token.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class LexerImpl implements Lexer {
     @Override
-    public List<Lexeme> toLexemeList(String receivedString) {
-        var expression = removeDoubleOperatorsAndSpaces(receivedString);
-        return getLexemes(expression);
+    public List<Token> tokenize(String receivedString) {
+        var expression = removeDoubleSpaces(receivedString);
+        return getTokens(expression);
     }
 
-    private List<Lexeme> getLexemes(String expression) {
-        var lexemes = new LinkedList<Lexeme>();
+    private List<Token> getTokens(String expression) {
+        var tokens = new LinkedList<Token>();
         var iterator = 0;
         while (iterator + 1 < expression.length()) {
             switch (expression.charAt(iterator)) {
-                case '(' -> lexemes.add(new Lexeme(OperationType.LEFT_BRACKET));
-                case ')' -> lexemes.add(new Lexeme(OperationType.RIGHT_BRACKET));
-                case '*' -> lexemes.add(new Lexeme(OperationType.MULTIPLICATION));
-                case '/' -> lexemes.add(new Lexeme(OperationType.DIVISION));
-                case '+' -> lexemes.add(new Lexeme(OperationType.ADDITION));
-                case '-' -> lexemes.add(new Lexeme(OperationType.SUBTRACTION));
+                case '(' -> tokens.add(new BracketToken(true));
+                case ')' -> tokens.add(new BracketToken(false));
+                case '*' -> tokens.add(new OperationToken(OperationType.MULTIPLICATION));
+                case '/' -> tokens.add(new OperationToken(OperationType.DIVISION));
+                case '+' -> tokens.add(new OperationToken(OperationType.ADDITION));
+                case '-' -> tokens.add(new OperationToken(OperationType.SUBTRACTION));
                 default -> {
-                    var index = getLastLexemeIndex(expression, iterator);
+                    var index = getLastTokenIndex(expression, iterator);
                     var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
-                    lexemes.add(new Lexeme(Double.parseDouble(operand)));
+                    tokens.add(new NumberToken(Double.parseDouble(operand)));
                     iterator = index-1;
                 }
             }
             iterator++;
         }
-        return lexemes;
+        return tokens;
     }
 
-    private Integer getLastLexemeIndex(String expression, Integer iterator) {
+    private Integer getLastTokenIndex(String expression, Integer iterator) {
         var charArr = expression.toCharArray();
-        var lastLexemeIndex = iterator;
-        while (lastLexemeIndex + 1 < charArr.length && (Character.isDigit(charArr[lastLexemeIndex]) || charArr[lastLexemeIndex] == '.')) {
-            lastLexemeIndex++;
+        var lastTokenIndex = iterator;
+        while (lastTokenIndex + 1 < charArr.length && (Character.isDigit(charArr[lastTokenIndex]) || charArr[lastTokenIndex] == '.')) {
+            lastTokenIndex++;
         }
-        if(lastLexemeIndex == 0 && !Character.isDigit(charArr[lastLexemeIndex])) {
+        if(lastTokenIndex == 0 && !Character.isDigit(charArr[lastTokenIndex])) {
             throw new BadOperandException();
         }
-        return lastLexemeIndex;
+        return lastTokenIndex;
     }
 
-    private String removeDoubleOperatorsAndSpaces(String string) {
+    private String removeDoubleSpaces(String string) {
         if (string.length() > 0 && string.charAt(0) == '+') string = string.substring(1);
         return string.strip().replaceAll("\\ ", "");
     }

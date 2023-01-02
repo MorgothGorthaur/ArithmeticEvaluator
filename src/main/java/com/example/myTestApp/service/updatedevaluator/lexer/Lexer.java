@@ -1,9 +1,9 @@
 package com.example.myTestApp.service.updatedevaluator.lexer;
 
-import com.example.myTestApp.service.updatedevaluator.lexer.lexeme.Lexeme;
+import com.example.myTestApp.service.updatedevaluator.token.Token;
 
 import java.util.List;
 
 public interface Lexer {
-    List<Lexeme> toLexemeList (String receivedString);
+    List<Token> tokenize (String receivedString);
 }
