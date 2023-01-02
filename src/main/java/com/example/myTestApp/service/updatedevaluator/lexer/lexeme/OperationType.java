@@ -1,4 +1,4 @@
-package com.example.myTestApp.service.updatedevaluator.lexeme;
+package com.example.myTestApp.service.updatedevaluator.lexer.lexeme;
 
 import com.example.myTestApp.exception.DivisionByZeroException;
 
