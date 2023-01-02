@@ -1,4 +1,4 @@
-# myTestApp
+# ArithmeticEvaluator
 <h2> Description </h2>
 <div>
 This program is dedicated to evaluate arithmetic expressions and obtain the amount of numbers in expression. If the given expression is correct, it will be saved to database. It also gives an opportunity to get expressions containing results equal to (higher / lower than) results recieved from database.
