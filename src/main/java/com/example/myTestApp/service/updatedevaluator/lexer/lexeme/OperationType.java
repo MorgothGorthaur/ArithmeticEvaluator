@@ -6,5 +6,6 @@ enum OperationType {
     ADDITION,
     SUBTRACTION,
     MULTIPLICATION,
-    DIVISION;
+    DIVISION,
+    OPERAND;
 }
