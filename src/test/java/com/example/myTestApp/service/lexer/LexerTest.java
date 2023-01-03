@@ -1,5 +1,7 @@
-package com.example.myTestApp.service.updatedevaluator.lexer;
+package com.example.myTestApp.service.lexer;
 
+import com.example.myTestApp.service.lexer.Lexer;
+import com.example.myTestApp.service.lexer.LexerImpl;
 import org.junit.jupiter.api.Test;
 
 class LexerTest {

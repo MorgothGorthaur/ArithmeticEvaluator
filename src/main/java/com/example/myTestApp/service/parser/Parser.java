@@ -1,5 +1,5 @@
-package com.example.myTestApp.service.updatedevaluator.parser;
-import com.example.myTestApp.service.updatedevaluator.token.Token;
+package com.example.myTestApp.service.parser;
+import com.example.myTestApp.service.token.Token;
 
 import java.util.List;
 

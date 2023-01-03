@@ -1,7 +1,7 @@
-package com.example.myTestApp.service.updatedevaluator.lexer;
+package com.example.myTestApp.service.lexer;
 
 import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.service.updatedevaluator.token.*;
+import com.example.myTestApp.service.token.*;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;

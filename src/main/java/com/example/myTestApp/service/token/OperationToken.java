@@ -1,4 +1,4 @@
-package com.example.myTestApp.service.updatedevaluator.token;
+package com.example.myTestApp.service.token;
 
 import com.example.myTestApp.exception.DivisionByZeroException;
 import lombok.AllArgsConstructor;

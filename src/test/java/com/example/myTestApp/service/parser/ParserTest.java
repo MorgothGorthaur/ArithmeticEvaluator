@@ -1,8 +1,7 @@
-package com.example.myTestApp.service.updatedevaluator.parser;
+package com.example.myTestApp.service.parser;
 
 import com.example.myTestApp.exception.*;
-import com.example.myTestApp.service.updatedevaluator.token.*;
-import lombok.RequiredArgsConstructor;
+import com.example.myTestApp.service.token.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;

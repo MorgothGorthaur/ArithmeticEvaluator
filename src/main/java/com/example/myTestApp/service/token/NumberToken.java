@@ -1,4 +1,4 @@
-package com.example.myTestApp.service.updatedevaluator.token;
+package com.example.myTestApp.service.token;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
