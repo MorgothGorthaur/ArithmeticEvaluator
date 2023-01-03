@@ -51,11 +51,16 @@ public class LexerImpl implements Lexer {
     }
 
     private int addOperand(String expression, LinkedList<Token> tokens, int iterator) {
-        var index = getLastTokenIndex(expression, iterator + 1);
-        var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
-        tokens.add(new NumberToken(Double.parseDouble(operand)));
-        iterator = index - 1;
-        return iterator;
+        try {
+            var index = getLastTokenIndex(expression, iterator + 1);
+            var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
+            tokens.add(new NumberToken(Double.parseDouble(operand)));
+            iterator = index - 1;
+            return iterator;
+        } catch (RuntimeException ex) {
+            throw new BadOperandException();
+        }
+
     }
 
     private Integer getLastTokenIndex(String expression, Integer iterator) {
