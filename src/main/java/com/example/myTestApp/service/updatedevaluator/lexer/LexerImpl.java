@@ -23,22 +23,21 @@ public class LexerImpl implements Lexer {
                 case '*' -> tokens.add(new OperationToken(OperationType.MULTIPLICATION));
                 case '/' -> tokens.add(new OperationToken(OperationType.DIVISION));
                 case '+' -> {
-                    if(expression.charAt(iterator-1) == '*' || expression.charAt(iterator -1) == '/') {
+                    if (expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/') {
                         iterator = addOperand(expression, tokens, iterator);
                     } else {
                         tokens.add(new OperationToken(OperationType.ADDITION));
                     }
                 }
                 case '-' -> {
-                    if(expression.charAt(iterator-1) == '*' || expression.charAt(iterator -1) == '/') {
+                    if (expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/') {
                         iterator = addOperand(expression, tokens, iterator);
                     } else {
                         tokens.add(new OperationToken(OperationType.SUBTRACTION));
                     }
                 }
-                default -> {
-                    iterator = addOperand(expression, tokens, iterator);
-                }
+                default -> iterator = addOperand(expression, tokens, iterator);
+
             }
             iterator++;
         }
@@ -46,10 +45,10 @@ public class LexerImpl implements Lexer {
     }
 
     private int addOperand(String expression, LinkedList<Token> tokens, int iterator) {
-        var index = getLastTokenIndex(expression, iterator +1);
+        var index = getLastTokenIndex(expression, iterator + 1);
         var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
         tokens.add(new NumberToken(Double.parseDouble(operand)));
-        iterator = index-1;
+        iterator = index - 1;
         return iterator;
     }
 
@@ -59,7 +58,7 @@ public class LexerImpl implements Lexer {
         while (lastTokenIndex + 1 < charArr.length && (Character.isDigit(charArr[lastTokenIndex]) || charArr[lastTokenIndex] == '.')) {
             lastTokenIndex++;
         }
-        if(lastTokenIndex == 0 && !Character.isDigit(charArr[lastTokenIndex])) {
+        if (lastTokenIndex == 0 && !Character.isDigit(charArr[lastTokenIndex])) {
             throw new BadOperandException();
         }
         return lastTokenIndex;
@@ -67,6 +66,6 @@ public class LexerImpl implements Lexer {
 
     private String removeDoubleSpaces(String string) {
         if (string.length() > 0 && string.charAt(0) == '+') string = string.substring(1);
-        return string.strip().replaceAll("\\ ", "").replaceAll("--","+").replaceAll("\\++", "+");
+        return string.strip().replaceAll("\\ ", "").replaceAll("--", "+").replaceAll("\\++", "+");
     }
 }
