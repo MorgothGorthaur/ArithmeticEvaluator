@@ -16,5 +16,9 @@ class LexerTest {
         expression = "2+3+(2+((2+2))) -6";
         res = lexer.tokenize(expression);
         System.out.println(res);
+
+        expression = "2++2 -+2+-2";
+        res = lexer.tokenize(expression);
+        System.out.println(res);
     }
 }

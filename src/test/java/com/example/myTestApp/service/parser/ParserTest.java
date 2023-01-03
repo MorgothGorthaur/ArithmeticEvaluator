@@ -104,8 +104,11 @@ class ParserTest {
         tokens.add(new BracketToken(false));
         tokens.add(new OperationToken(OperationType.SUBTRACTION));
         tokens.add(new NumberToken(6.0));
-        System.out.println(tokens);
-        System.out.println(parser.evaluate(tokens));
+        res = parser.evaluate(tokens);
+        assertEquals(res, 5.0);
+
+
+
     }
     @Test
     void evaluate_shouldThrowEmptyExpressionException() {

@@ -24,14 +24,14 @@ public class LexerImpl implements Lexer {
                 case '*' -> tokens.add(new OperationToken(OperationType.MULTIPLICATION));
                 case '/' -> tokens.add(new OperationToken(OperationType.DIVISION));
                 case '+' -> {
-                    if (expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/') {
+                    if (ifContainsAnotherOperatorBefore(expression, iterator)) {
                         iterator = addOperand(expression, tokens, iterator);
                     } else {
                         tokens.add(new OperationToken(OperationType.ADDITION));
                     }
                 }
                 case '-' -> {
-                    if (expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/') {
+                    if (ifContainsAnotherOperatorBefore(expression, iterator)) {
                         iterator = addOperand(expression, tokens, iterator);
                     } else {
                         tokens.add(new OperationToken(OperationType.SUBTRACTION));
@@ -43,6 +43,11 @@ public class LexerImpl implements Lexer {
             iterator++;
         }
         return tokens;
+    }
+
+    private boolean ifContainsAnotherOperatorBefore(String expression, int iterator) {
+        return expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/'
+                || expression.charAt(iterator - 1) == '+' || expression.charAt(iterator - 1) == '-';
     }
 
     private int addOperand(String expression, LinkedList<Token> tokens, int iterator) {
@@ -67,6 +72,6 @@ public class LexerImpl implements Lexer {
 
     private String removeDoubleSpaces(String string) {
         if (string.length() > 0 && string.charAt(0) == '+') string = string.substring(1);
-        return string.strip().replaceAll("\\ ", "").replaceAll("--", "+").replaceAll("\\++", "+");
+        return string.strip().replaceAll("\\ ", "");
     }
 }
