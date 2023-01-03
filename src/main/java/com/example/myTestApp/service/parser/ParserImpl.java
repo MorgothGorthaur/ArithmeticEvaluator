@@ -69,12 +69,11 @@ public class ParserImpl implements Parser {
     }
     private Double getMultiplyOrDivideResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation) {
         var rightToken = tokens.removeFirst();
-        var res = 0.0;
         rightToken = checkIfRightTokenIsBracket(tokens, rightToken);
         if(rightToken instanceof NumberToken){
-            res = operation.doOperation(leftOperand, ((NumberToken) rightToken).getNumber());
+            var res = operation.doOperation(leftOperand, ((NumberToken) rightToken).getNumber());
+            tokens.addFirst(new NumberToken(res));
         } else throw new BadOperandException();
-        tokens.addFirst(new NumberToken(res));
         return evaluateExpression(tokens);
     }
 
