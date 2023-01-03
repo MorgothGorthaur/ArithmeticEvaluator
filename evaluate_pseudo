@@ -1,5 +1,5 @@
 evaluate_expr(tokens)
-	if tokens is empty: throw error;
+	if tokens is empty: throw error
 	next_operand = tokens.remove
 	if next_token is numberToken:
 		return do_operation(tokens, next_token)
