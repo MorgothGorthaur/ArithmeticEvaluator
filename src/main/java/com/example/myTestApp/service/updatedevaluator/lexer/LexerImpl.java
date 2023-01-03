@@ -56,7 +56,7 @@ public class LexerImpl implements Lexer {
     private Integer getLastTokenIndex(String expression, Integer iterator) {
         var charArr = expression.toCharArray();
         var lastTokenIndex = iterator;
-        while (lastTokenIndex + 1 < charArr.length && (Character.isDigit(charArr[lastTokenIndex]) || charArr[lastTokenIndex] == '.')) {
+        while (lastTokenIndex + 1 <= charArr.length && (Character.isDigit(charArr[lastTokenIndex]) || charArr[lastTokenIndex] == '.')) {
             lastTokenIndex++;
         }
         if (lastTokenIndex == 0 && !Character.isDigit(charArr[lastTokenIndex])) {

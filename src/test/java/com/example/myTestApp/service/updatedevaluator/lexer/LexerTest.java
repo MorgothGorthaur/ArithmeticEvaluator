@@ -7,7 +7,7 @@ class LexerTest {
 
     @Test
     void toLexemeList() {
-        var expression = "5*--1(++2.55) +4";
+        var expression = "2.5+44/(2--2)+ 3.5";
         var res = lexer.tokenize(expression);
         System.out.println(res);
     }
