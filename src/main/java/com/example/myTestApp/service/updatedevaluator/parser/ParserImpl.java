@@ -30,18 +30,22 @@ public class ParserImpl implements Parser {
         if (tokens.isEmpty()) throw new EmptyExpressionException();
         var nextToken = tokens.removeFirst();
         if (nextToken instanceof NumberToken) {
-            var leftOperand = ((NumberToken) nextToken).getNumber();
-            if (expressionIsEnded(tokens)) return leftOperand;
-            var operation = tokens.removeFirst();
-            if (operation instanceof OperationToken) {
-                var operationType = ((OperationToken) operation).getOperationType();
-                return operationType.equals(OperationType.MULTIPLICATION) || operationType.equals(OperationType.DIVISION) ?
-                        getMultiplyOrDivideResult(tokens, leftOperand, (OperationToken) operation) :
-                        ((OperationToken) operation).doOperation(leftOperand, evaluateExpression(tokens));
-            } else throw new OperationExpectedException();
+            return doArithmeticOperation(tokens, (NumberToken) nextToken);
         } else if (nextToken instanceof BracketToken) {
             return getResultFromBrackets(tokens);
         } else throw new BadOperandException();
+    }
+
+    private Double doArithmeticOperation(LinkedList<Token> tokens, NumberToken nextToken) {
+        var leftOperand = nextToken.getNumber();
+        if (expressionIsEnded(tokens)) return leftOperand;
+        var operation = tokens.removeFirst();
+        if (operation instanceof OperationToken) {
+            var operationType = ((OperationToken) operation).getOperationType();
+            return operationType.equals(OperationType.MULTIPLICATION) || operationType.equals(OperationType.DIVISION) ?
+                    getMultiplyOrDivideResult(tokens, leftOperand, (OperationToken) operation) :
+                    ((OperationToken) operation).doOperation(leftOperand, evaluateExpression(tokens));
+        } else throw new OperationExpectedException();
     }
 
     private boolean expressionIsEnded(LinkedList<Token> tokens) {
@@ -55,7 +59,7 @@ public class ParserImpl implements Parser {
             res = operation.doOperation(leftOperand, ((NumberToken) rightToken).getNumber());
             tokens.removeFirst();
         } else if (rightToken instanceof BracketToken && ((BracketToken) rightToken).isOpen()) {
-            res = operation.doOperation(leftOperand, evaluateExpression(tokens));
+            res = operation.doOperation(leftOperand, getResultFromBrackets(tokens));
         } else throw new BadOperandException();
         tokens.addFirst(new NumberToken(res));
         return evaluateExpression(tokens);
