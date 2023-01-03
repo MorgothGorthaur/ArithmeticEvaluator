@@ -4,21 +4,30 @@ evaluate(tokens)
 	if next_token is NumberToken:
 		left_operand = next_token.getNumber
 		if tokens is empty or (tokens.first is BracketToken and !tokens.first.isOpen): return left_operand
-		var operation = tokens.remove()
+		operation = tokens.remove()
 		if operation is OperationToken:
 			if operation is Multiplication or Division:
-				if tokens.first is NumberToken:
-					left_operand = doOperation(left_token,tokens.remove().getNumber)
-					return evaluate(tokens.addFirst(token(left_operand)))
-				else if tokens.first is BracketToken and tokens.first.isOpent:
-					return doOperation(left_operand, evaluete(tokens)
-			else if operation is Addition or Substraction:
+				right_token = tokens.first
+				var res = 0
+				if right_token is NumberToken:
+					res = doOperation(left_token,tokens.remove().getNumber)
+					tokens.remove()
+				else if right_token is BracketToken and right_token.isOpent:
+					res =  left_operand * evaluete(tokens)
+				else: throw error
+				tokens.addFirst(Token(res))
+				return evaluate(tokens)
+			else:
 				return doOperation(left_operand, evaluete(tokens)
 			
 		else: throw error;
 	if next_token is NumberToken:
 		if !next_token.isOpen: throw error;
 		result = evaluate(tokens);
+		return result;
+		if tokens is empty : throw error;
+		last_token = tokens.remove;
+		if !last_token is BrakcetToken or lastToken is empty: throw error;
 		return result;
 					
 					

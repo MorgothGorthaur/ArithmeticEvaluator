@@ -38,7 +38,7 @@ public class ParserImpl implements Parser {
     }
 
     private boolean expressionIsEnded(LinkedList<Token> tokens) {
-        return tokens.isEmpty() || (tokens.size() == 1 && tokens.getFirst() instanceof BracketToken && !((BracketToken) tokens.getFirst()).isOpen());
+        return tokens.isEmpty() || (tokens.getFirst() instanceof BracketToken && !((BracketToken) tokens.getFirst()).isOpen());
     }
 
     private Double getMultiplyOrDivideResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation) {
