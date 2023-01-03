@@ -22,18 +22,35 @@ public class LexerImpl implements Lexer {
                 case ')' -> tokens.add(new BracketToken(false));
                 case '*' -> tokens.add(new OperationToken(OperationType.MULTIPLICATION));
                 case '/' -> tokens.add(new OperationToken(OperationType.DIVISION));
-                case '+' -> tokens.add(new OperationToken(OperationType.ADDITION));
-                case '-' -> tokens.add(new OperationToken(OperationType.SUBTRACTION));
+                case '+' -> {
+                    if(expression.charAt(iterator-1) == '*' || expression.charAt(iterator -1) == '/') {
+                        iterator = addOperand(expression, tokens, iterator);
+                    } else {
+                        tokens.add(new OperationToken(OperationType.ADDITION));
+                    }
+                }
+                case '-' -> {
+                    if(expression.charAt(iterator-1) == '*' || expression.charAt(iterator -1) == '/') {
+                        iterator = addOperand(expression, tokens, iterator);
+                    } else {
+                        tokens.add(new OperationToken(OperationType.SUBTRACTION));
+                    }
+                }
                 default -> {
-                    var index = getLastTokenIndex(expression, iterator);
-                    var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
-                    tokens.add(new NumberToken(Double.parseDouble(operand)));
-                    iterator = index-1;
+                    iterator = addOperand(expression, tokens, iterator);
                 }
             }
             iterator++;
         }
         return tokens;
+    }
+
+    private int addOperand(String expression, LinkedList<Token> tokens, int iterator) {
+        var index = getLastTokenIndex(expression, iterator +1);
+        var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
+        tokens.add(new NumberToken(Double.parseDouble(operand)));
+        iterator = index-1;
+        return iterator;
     }
 
     private Integer getLastTokenIndex(String expression, Integer iterator) {
@@ -50,6 +67,6 @@ public class LexerImpl implements Lexer {
 
     private String removeDoubleSpaces(String string) {
         if (string.length() > 0 && string.charAt(0) == '+') string = string.substring(1);
-        return string.strip().replaceAll("\\ ", "");
+        return string.strip().replaceAll("\\ ", "").replaceAll("--","+").replaceAll("\\++", "+");
     }
 }
