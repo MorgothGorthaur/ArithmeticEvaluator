@@ -17,7 +17,7 @@ public class LexerImpl implements Lexer {
     private List<Token> getTokens(String expression) {
         var tokens = new LinkedList<Token>();
         var iterator = 0;
-        while (iterator + 1 < expression.length()) {
+        while (iterator + 1 <= expression.length()) {
             switch (expression.charAt(iterator)) {
                 case '(' -> tokens.add(new BracketToken(true));
                 case ')' -> tokens.add(new BracketToken(false));
