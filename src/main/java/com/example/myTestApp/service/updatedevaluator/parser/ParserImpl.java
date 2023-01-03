@@ -60,7 +60,7 @@ public class ParserImpl implements Parser {
         if (rightToken instanceof BracketToken && ((BracketToken) rightToken).isOpen()) {
              getResultFromBrackets(tokens);
              rightToken = tokens.removeFirst();
-        } else throw new BadOperandException();
+        }
         if(rightToken instanceof NumberToken){
             res = operation.doOperation(leftOperand, ((NumberToken) rightToken).getNumber());
         } else throw new BadOperandException();
