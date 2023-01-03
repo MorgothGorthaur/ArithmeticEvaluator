@@ -21,14 +21,32 @@ do_operation(tokens, next_token):
 		if(operation is Multiplication or Division:
 			return mult_or_div_operation(left_operand, operation, tokens)
 		else:
-			return operation(left_operand, evaluete_expr(tokens);
+			return add_or_dist_operation(left_operand, operation, token)
 
 mult_or_div_operation(left_operand, operation, tokens):
-	right_token = tokens.first
+	right_token = tokens.remove
+	right_token = check_if_right_token_is_bracket(tokens, right_token)
+	if right_token is numberToken:
+		res = operation(left_operand, right_token.number)
+	else: throw error
+	tokens.addFirst(res)
+	return evaluate_exp(tokens)
+
+
+add_or_dist_operation(left_operand, operation, token):
+	right_token = token.remove
+	right_token = check_if_right_token_is_bracket(tokens, right_token)
+	if right_token is numberToken:
+		if operation.operationType is Subtraction:
+			operation = Addition
+			rightToken.setNumber(-1*rightToken.getNumber)
+	else: throw error
+	tokens.addFirst(right_token)
+	return operation(left_token, evaluate_expr(tokens)
+
+check_if_right_token_is_bracket(tokens, right_token):
 	if right_token is bracketToken and right_token.isOpen:
 		evaluate_brackes(tokens)
 		right_token = tokens.remove
-	res = operation(left_operand, right_token.number)
-	tokens.addFirst(res)
-	return evaluate_exp(tokens)
+	return right_token
 		
