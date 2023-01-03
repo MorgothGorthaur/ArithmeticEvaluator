@@ -15,16 +15,20 @@ class ParserTest {
 
     @Test
     void evaluate() {
-        //2+3*(2+3)
+        //2+3*(2*(6+3))
         var tokens = new LinkedList<Token>();
         tokens.add(new NumberToken(2.0));
         tokens.add(new OperationToken(OperationType.ADDITION));
         tokens.add(new NumberToken(3.0));
         tokens.add(new OperationToken(OperationType.MULTIPLICATION));
         tokens.add(new BracketToken(true));
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.MULTIPLICATION));
+        tokens.add(new BracketToken(true));
         tokens.add(new NumberToken(6.0));
-        tokens.add(new OperationToken(OperationType.DIVISION));
-        tokens.add(new NumberToken(3.0));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+        tokens.add(new NumberToken(-21013.0));
+        tokens.add(new BracketToken(false));
         tokens.add(new BracketToken(false));
         var res = parser.evaluate(tokens);
         System.out.println(res);

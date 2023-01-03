@@ -1,8 +1,6 @@
 package com.example.myTestApp.service.updatedevaluator.parser;
 
-import com.example.myTestApp.exception.BadOperandException;
-import com.example.myTestApp.exception.MissedLeftBracketException;
-import com.example.myTestApp.exception.MissedRightBracketException;
+import com.example.myTestApp.exception.*;
 import com.example.myTestApp.service.updatedevaluator.token.*;
 
 import java.util.LinkedList;
@@ -20,7 +18,7 @@ public class ParserImpl implements Parser {
     }
 
     private Double evaluateExpression(LinkedList<Token> tokens) {
-        if (tokens.isEmpty()) throw new RuntimeException("empty!");
+        if (tokens.isEmpty()) throw new EmptyExpressionException();
         var nextToken = tokens.removeFirst();
         if (nextToken instanceof NumberToken) {
             var leftOperand = ((NumberToken) nextToken).getNumber();
@@ -31,10 +29,10 @@ public class ParserImpl implements Parser {
                 return operationType.equals(OperationType.MULTIPLICATION) || operationType.equals(OperationType.DIVISION) ?
                         getMultiplyOrDivideResult(tokens, leftOperand, (OperationToken) operation) :
                         ((OperationToken) operation).doOperation(leftOperand, evaluateExpression(tokens));
-            } else throw new RuntimeException("operation expected!");
+            } else throw new OperationExpectedException();
         } else if (nextToken instanceof BracketToken) {
             return getResultFromBrackets(tokens, (BracketToken) nextToken);
-        } else throw new RuntimeException("unexpected token!");
+        } else throw new BadOperandException();
     }
 
     private boolean expressionIsEnded(LinkedList<Token> tokens) {
