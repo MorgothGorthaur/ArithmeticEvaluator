@@ -3,9 +3,11 @@ package com.example.myTestApp.service.token;
 import com.example.myTestApp.exception.DivisionByZeroException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
-@Getter
+@Getter @Setter
 public class OperationToken implements Token{
     private OperationType operationType;
     @Override

@@ -107,6 +107,17 @@ class ParserTest {
         res = parser.evaluate(tokens);
         assertEquals(res, 5.0);
 
+        //2+2 -2 + -2
+        tokens.clear();
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.SUBTRACTION));
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+        tokens.add(new NumberToken(-2.0));
+        res = parser.evaluate(tokens);
+        assertEquals(res, 0);
 
 
     }
