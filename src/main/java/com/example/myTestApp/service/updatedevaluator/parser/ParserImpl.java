@@ -9,12 +9,21 @@ import java.util.List;
 public class ParserImpl implements Parser {
     @Override
     public Double evaluate(List<Token> tokens) {
+        checkIfBracketsDoesntMissed(tokens);
         return evaluateExpression(new LinkedList<>(tokens));
     }
 
     @Override
     public Integer getNumOfOperands(List<Token> lexemes) {
         return lexemes.stream().filter(token -> token instanceof NumberToken).toList().size();
+    }
+
+    private void checkIfBracketsDoesntMissed(List<Token>tokens){
+        var lefBracketsNum = tokens.stream().filter(token -> token instanceof BracketToken && ((BracketToken) token).isOpen()).toList().size();
+        var rightBracketsNum = tokens.stream().filter(token -> token instanceof BracketToken && !((BracketToken) token).isOpen()).toList().size();
+        if(lefBracketsNum > rightBracketsNum) throw new MissedRightBracketException();
+        if(lefBracketsNum < rightBracketsNum) throw new MissedLeftBracketException();
+
     }
 
     private Double evaluateExpression(LinkedList<Token> tokens) {
@@ -31,7 +40,7 @@ public class ParserImpl implements Parser {
                         ((OperationToken) operation).doOperation(leftOperand, evaluateExpression(tokens));
             } else throw new OperationExpectedException();
         } else if (nextToken instanceof BracketToken) {
-            return getResultFromBrackets(tokens, (BracketToken) nextToken);
+            return getResultFromBrackets(tokens);
         } else throw new BadOperandException();
     }
 
@@ -45,22 +54,16 @@ public class ParserImpl implements Parser {
         if (rightToken instanceof NumberToken) {
             res = operation.doOperation(leftOperand, ((NumberToken) rightToken).getNumber());
             tokens.removeFirst();
-
         } else if (rightToken instanceof BracketToken && ((BracketToken) rightToken).isOpen()) {
-            res = leftOperand * evaluateExpression(tokens);
+            res = operation.doOperation(leftOperand, evaluateExpression(tokens));
         } else throw new BadOperandException();
         tokens.addFirst(new NumberToken(res));
         return evaluateExpression(tokens);
     }
 
-    private Double getResultFromBrackets(LinkedList<Token> tokens, BracketToken nextToken) {
-        if (!nextToken.isOpen()) throw new MissedLeftBracketException();
-        var result = evaluateExpression(tokens);
-        if (tokens.isEmpty()) throw new MissedRightBracketException();
-        var lastToken = tokens.removeFirst();
-        if (!(lastToken instanceof BracketToken) || ((BracketToken) lastToken).isOpen())
-            throw new RuntimeException();
-        return result;
+    private Double getResultFromBrackets(LinkedList<Token> tokens) {
+        if(tokens.getFirst() instanceof BracketToken && !((BracketToken) tokens.getFirst()).isOpen()) throw new EmptyExpressionException();
+        return evaluateExpression(tokens);
     }
 
 }
