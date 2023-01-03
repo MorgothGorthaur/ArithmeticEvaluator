@@ -11,7 +11,7 @@ import java.util.List;
 public class ParserImpl implements Parser {
     @Override
     public Double evaluate(List<Token> tokens) {
-        return customEvaluateTokens(new LinkedList(tokens));
+        return evaluateExpression(new LinkedList<>(tokens));
     }
 
     @Override
@@ -19,7 +19,7 @@ public class ParserImpl implements Parser {
         return lexemes.stream().filter(token -> token instanceof NumberToken).toList().size();
     }
 
-    private Double customEvaluateTokens(LinkedList<Token> tokens) {
+    private Double evaluateExpression(LinkedList<Token> tokens) {
         if (tokens.isEmpty()) throw new RuntimeException("empty!");
         var nextToken = tokens.removeFirst();
         if (nextToken instanceof NumberToken) {
@@ -30,7 +30,7 @@ public class ParserImpl implements Parser {
                 var operationType = ((OperationToken) operation).getOperationType();
                 return operationType.equals(OperationType.MULTIPLICATION) || operationType.equals(OperationType.DIVISION) ?
                         getMultiplyOrDivideResult(tokens, leftOperand, (OperationToken) operation) :
-                        ((OperationToken) operation).doOperation(leftOperand, customEvaluateTokens(tokens));
+                        ((OperationToken) operation).doOperation(leftOperand, evaluateExpression(tokens));
             } else throw new RuntimeException("operation expected!");
         } else if (nextToken instanceof BracketToken) {
             return getResultFromBrackets(tokens, (BracketToken) nextToken);
@@ -49,15 +49,15 @@ public class ParserImpl implements Parser {
             tokens.removeFirst();
 
         } else if (rightToken instanceof BracketToken && ((BracketToken) rightToken).isOpen()) {
-            res = leftOperand * customEvaluateTokens(tokens);
+            res = leftOperand * evaluateExpression(tokens);
         } else throw new BadOperandException();
         tokens.addFirst(new NumberToken(res));
-        return customEvaluateTokens(tokens);
+        return evaluateExpression(tokens);
     }
 
     private Double getResultFromBrackets(LinkedList<Token> tokens, BracketToken nextToken) {
         if (!nextToken.isOpen()) throw new MissedLeftBracketException();
-        var result = customEvaluateTokens(tokens);
+        var result = evaluateExpression(tokens);
         if (tokens.isEmpty()) throw new MissedRightBracketException();
         var lastToken = tokens.removeFirst();
         if (!(lastToken instanceof BracketToken) || ((BracketToken) lastToken).isOpen())
