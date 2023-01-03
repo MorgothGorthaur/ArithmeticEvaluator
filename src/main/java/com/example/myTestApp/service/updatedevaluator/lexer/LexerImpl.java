@@ -2,10 +2,11 @@ package com.example.myTestApp.service.updatedevaluator.lexer;
 
 import com.example.myTestApp.exception.BadOperandException;
 import com.example.myTestApp.service.updatedevaluator.token.*;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-
+@Service
 public class LexerImpl implements Lexer {
     @Override
     public List<Token> tokenize(String receivedString) {

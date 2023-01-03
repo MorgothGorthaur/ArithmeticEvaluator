@@ -2,10 +2,11 @@ package com.example.myTestApp.service.updatedevaluator.parser;
 
 import com.example.myTestApp.exception.*;
 import com.example.myTestApp.service.updatedevaluator.token.*;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-
+@Service
 public class ParserImpl implements Parser {
     @Override
     public Double evaluate(List<Token> tokens) {

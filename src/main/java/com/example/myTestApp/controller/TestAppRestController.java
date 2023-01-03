@@ -6,6 +6,8 @@ import com.example.myTestApp.model.Expression;
 import com.example.myTestApp.repository.ExpressionRepository;
 import com.example.myTestApp.service.evaluator.ArithmeticExpressionEvaluator;
 import com.example.myTestApp.service.counter.NumOfDoublesCounter;
+import com.example.myTestApp.service.updatedevaluator.lexer.Lexer;
+import com.example.myTestApp.service.updatedevaluator.parser.Parser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +19,15 @@ import java.util.List;
 @CrossOrigin("*")
 public class TestAppRestController {
     private final ExpressionRepository repository;
-    private final ArithmeticExpressionEvaluator evaluator;
-    private final NumOfDoublesCounter counter;
+    private final Lexer lexer;
+    private final Parser parser;
 
     @PostMapping
     public Expression getResult(@RequestBody Expression expression) {
         expression.setId(null);
-        expression.setNumOfDoubles(counter.count(expression.getArithmeticExpression()));
-        expression.setResult(evaluator.getEvaluation(expression.getArithmeticExpression()));
+        var tokens = lexer.tokenize(expression.getArithmeticExpression());
+        expression.setNumOfDoubles(parser.getNumOfOperands(tokens));
+        expression.setResult(parser.evaluate(tokens));
         repository.save(expression);
         return expression;
 
@@ -34,8 +37,9 @@ public class TestAppRestController {
     public Expression updateExpression(@RequestBody Expression expression) {
         var exp = repository.findById(expression.getId()).orElseThrow(() -> new ExpressionNotFoundException(expression.getId()));
         exp.setArithmeticExpression(expression.getArithmeticExpression());
-        exp.setResult(evaluator.getEvaluation(expression.getArithmeticExpression()));
-        exp.setNumOfDoubles(counter.count(expression.getArithmeticExpression()));
+        var tokens = lexer.tokenize(expression.getArithmeticExpression());
+        exp.setNumOfDoubles(parser.getNumOfOperands(tokens));
+        exp.setResult(parser.evaluate(tokens));
         return repository.save(exp);
 
     }
