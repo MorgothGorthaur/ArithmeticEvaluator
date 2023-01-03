@@ -1,34 +1,34 @@
-evaluate(tokens)
-	if tokens is empty : throw error
-	next_token = tokens.remove()
-	if next_token is NumberToken:
-		left_operand = next_token.getNumber
-		if tokens is empty or (tokens.first is BracketToken and !tokens.first.isOpen): return left_operand
-		operation = tokens.remove()
-		if operation is OperationToken:
-			if operation is Multiplication or Division:
-				right_token = tokens.first
-				var res = 0
-				if right_token is NumberToken:
-					res = doOperation(left_token,tokens.remove().getNumber)
-					tokens.remove()
-				else if right_token is BracketToken and right_token.isOpent:
-					res =  left_operand * evaluete(tokens)
-				else: throw error
-				tokens.addFirst(Token(res))
-				return evaluate(tokens)
-			else:
-				return doOperation(left_operand, evaluete(tokens)
-			
-		else: throw error;
-	if next_token is NumberToken:
-		if !next_token.isOpen: throw error;
-		result = evaluate(tokens);
-		return result;
-		if tokens is empty : throw error;
-		last_token = tokens.remove;
-		if !last_token is BrakcetToken or lastToken is empty: throw error;
-		return result;
-					
-					
-			
+evaluate_expr(tokens)
+	if tokens is empty: throw error;
+	next_operand = tokens.remove
+	if next_token is numberToken:
+		return do_operation(tokens, next_token)
+	else if next_token is bracketToken:
+		evaluate_expr(tokens)
+	else: throw error;
+	
+
+evaluate_brackets(tokens):
+	if tokens.first is bracketToken and !tokens.first.isOpen: throw error;
+	result = evaluate_expr(tokens)
+	tokens.remove
+	tokens.addFirst(result)
+	
+do_operation(tokens, next_token):
+	left_operand = next_token.getNumber
+	operation = tokens.remove
+	if operation is operationToken:
+		if(operation is Multiplication or Division:
+			return mult_or_div_operation(left_operand, operation, tokens)
+		else:
+			return operation(left_operand, evaluete_expr(tokens);
+
+mult_or_div_operation(left_operand, operation, tokens):
+	right_token = tokens.first
+	if right_token is bracketToken and right_token.isOpen:
+		evaluate_brackes(tokens)
+		right_token = tokens.remove
+	res = operation(left_operand, right_token.number)
+	tokens.addFirst(res)
+	return evaluate_exp(tokens)
+		

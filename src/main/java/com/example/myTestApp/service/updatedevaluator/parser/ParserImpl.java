@@ -32,8 +32,9 @@ public class ParserImpl implements Parser {
         var nextToken = tokens.removeFirst();
         if (nextToken instanceof NumberToken) {
             return doArithmeticOperation(tokens, (NumberToken) nextToken);
-        } else if (nextToken instanceof BracketToken) {
-            return getResultFromBrackets(tokens);
+        } else if (nextToken instanceof BracketToken && ((BracketToken) nextToken).isOpen()) {
+            getResultFromBrackets(tokens);
+            return evaluateExpression(tokens);
         } else throw new BadOperandException();
     }
 
@@ -54,21 +55,24 @@ public class ParserImpl implements Parser {
     }
 
     private Double getMultiplyOrDivideResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation) {
-        var rightToken = tokens.getFirst();
+        var rightToken = tokens.removeFirst();
         var res = 0.0;
-        if (rightToken instanceof NumberToken) {
+        if (rightToken instanceof BracketToken && ((BracketToken) rightToken).isOpen()) {
+             getResultFromBrackets(tokens);
+             rightToken = tokens.removeFirst();
+        } else throw new BadOperandException();
+        if(rightToken instanceof NumberToken){
             res = operation.doOperation(leftOperand, ((NumberToken) rightToken).getNumber());
-            tokens.removeFirst();
-        } else if (rightToken instanceof BracketToken && ((BracketToken) rightToken).isOpen()) {
-            res = operation.doOperation(leftOperand, getResultFromBrackets(tokens));
         } else throw new BadOperandException();
         tokens.addFirst(new NumberToken(res));
         return evaluateExpression(tokens);
     }
 
-    private Double getResultFromBrackets(LinkedList<Token> tokens) {
+    private void getResultFromBrackets(LinkedList<Token> tokens) {
         if(tokens.getFirst() instanceof BracketToken && !((BracketToken) tokens.getFirst()).isOpen()) throw new EmptyExpressionException();
-        return evaluateExpression(tokens);
+        var result =  evaluateExpression(tokens);
+        tokens.removeFirst();
+        tokens.addFirst(new NumberToken(result));
     }
 
 }

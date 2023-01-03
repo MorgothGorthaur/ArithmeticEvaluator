@@ -15,6 +15,8 @@ class ParserTest {
 
     @Test
     void evaluate() {
+
+
         //2+3*(2*(6+3))
         var tokens = new LinkedList<Token>();
         tokens.add(new NumberToken(2.0));
@@ -69,6 +71,21 @@ class ParserTest {
         tokens.add(new NumberToken(2.0));
         res = parser.evaluate(tokens);
         assertEquals(res, 6);
+//2+44/(2+2)+3.5
+        tokens.clear();
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+        tokens.add(new NumberToken(44.0));
+        tokens.add(new OperationToken(OperationType.DIVISION));
+        tokens.add(new BracketToken(true));
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new BracketToken(false));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+        tokens.add(new NumberToken(3.5));
+        res = parser.evaluate(tokens);
+        assertEquals(res, 16.5);
     }
     @Test
     void evaluate_shouldThrowEmptyExpressionException() {
