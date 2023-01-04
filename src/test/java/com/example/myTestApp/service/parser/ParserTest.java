@@ -123,6 +123,19 @@ class ParserTest {
         tokens.add(new NumberToken(2.0));
         res = parser.evaluate(tokens);
         assertEquals(res, 2.0);
+        //10-(2+3)*2
+        tokens.clear();
+        tokens.add(new NumberToken(10.0));
+        tokens.add(new OperationToken(OperationType.SUBTRACTION));
+        tokens.add(new BracketToken(true));
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+        tokens.add(new NumberToken(3.0));
+        tokens.add(new BracketToken(false));
+        tokens.add(new OperationToken(OperationType.MULTIPLICATION));
+        tokens.add(new NumberToken(2.0));
+        res = parser.evaluate(tokens);
+        assertEquals(res, 0.0);
     }
     @Test
     void evaluate_shouldThrowEmptyExpressionException() {
@@ -234,5 +247,18 @@ class ParserTest {
     }
     @Test
     void getNumOfOperands() {
+        var tokens = new LinkedList<Token>();
+        var res = parser.getNumOfOperands(tokens);
+        assertEquals(res, 0);
+
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.MULTIPLICATION));
+        tokens.add(new BracketToken(true));
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+        tokens.add(new NumberToken(3.0));
+        tokens.add(new BracketToken(false));
+        res = parser.getNumOfOperands(tokens);
+        assertEquals(res, 3);
     }
 }
