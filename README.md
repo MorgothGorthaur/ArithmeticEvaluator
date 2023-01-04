@@ -14,7 +14,7 @@ If expression is incorrect, the program returns an error message.
  </div>
 <br/>
 <div>
-Samples of correct expressions - "2*((2+2))" is same as "2*(2+2)", "--1" is same as "+1", "2 + -1" is same as "2 - +1" and "2-1" (but "2/ +-1" or "2* +-1" is incorrect), "2+	2" is equal to "2+2", "2++2" is same as "2+2".
+Samples of correct expressions - "2*((2+2))" is same as "2*(2+2)", "2+	2" is equal to "2+2".
 </div>
 <h2>Used Technologies:</h2>
  <div>
