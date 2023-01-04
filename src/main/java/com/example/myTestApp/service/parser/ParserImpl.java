@@ -46,7 +46,6 @@ public class ParserImpl implements Parser {
             var operationType = ((OperationToken) operation).getOperationType();
             return operationType.equals(OperationType.MULTIPLICATION) || operationType.equals(OperationType.DIVISION) ?
                     getMultiplyOrDivideResult(tokens, leftOperand, (OperationToken) operation) :
-                    //((OperationToken) operation).doOperation(leftOperand, evaluateExpression(tokens));
                     getAdditionOrSubtractionResult(tokens,leftOperand,(OperationToken)  operation);
         } else throw new OperationExpectedException();
     }
