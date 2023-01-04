@@ -46,8 +46,8 @@ public class LexerImpl implements Lexer {
     }
 
     private boolean ifContainsAnotherOperatorBefore(String expression, int iterator) {
-        return expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/'
-                || expression.charAt(iterator - 1) == '+' || expression.charAt(iterator - 1) == '-';
+        return iterator == 0 || (expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/'
+                || expression.charAt(iterator - 1) == '+' || expression.charAt(iterator - 1) == '-');
     }
 
     private int addOperand(String expression, LinkedList<Token> tokens, int iterator) {
@@ -76,7 +76,6 @@ public class LexerImpl implements Lexer {
     }
 
     private String removeDoubleSpaces(String string) {
-        if (string.length() > 0 && string.charAt(0) == '+') string = string.substring(1);
         return string.strip().replaceAll("\\ ", "");
     }
 }

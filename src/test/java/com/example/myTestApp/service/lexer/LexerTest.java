@@ -24,6 +24,10 @@ class LexerTest {
         expression = "2++2 -+2+-2";
         res = lexer.tokenize(expression);
         assertEquals(res.toString(), "[2.0, ADDITION, 2.0, SUBTRACTION, 2.0, ADDITION, -2.0]");
+
+        expression = "-2+2";
+        res = lexer.tokenize(expression);
+        assertEquals(res.toString(), "[-2.0, ADDITION, 2.0]");
     }
 
     @Test
