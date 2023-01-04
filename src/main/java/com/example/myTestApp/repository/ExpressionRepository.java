@@ -13,5 +13,5 @@ public interface ExpressionRepository extends JpaRepository<Expression, Long> {
     List<Expression> getExpressionsWithLowerResults(Double result);
 
     @Query(value = "select exp from Expression exp where exp.result > ?1")
-    List<Expression> getExpressionsWithUpperResults(Double result);
+    List<Expression> getExpressionsWithHigherResults(Double result);
 }

@@ -18,28 +18,28 @@ const ExpressionList = () => {
         }, 1000);
     }, []);
     const add = (data) => {
-        setExpressions([...expressions, data]);
+        setExpressions([data, ...expressions]);
         setShow(false);
     }
     const update = (data) => {
-        setExpressions([...expressions.filter(ex => ex.id !== data.id), data]);
+        setExpressions([data, ...expressions.filter(ex => ex.id !== data.id)]);
         //customFind("all");
     }
 
     async function fetchExpressions() {
-        setExpressions(await ExpressionService.getAll());
+        setExpressions((await ExpressionService.getAll()).sort((a,b) => b.id - a.id));
         setLoading(false);
     }
     async function fetchExpressionsByResult() {
-        setExpressions(await ExpressionService.getByResult(result));
+        setExpressions((await ExpressionService.getByResult(result)).sort((a,b) => b.id - a.id));
         setLoading(false);
     }
     async function fetchExpressionsWithLowerResults() {
-        setExpressions(await ExpressionService.getWithLowerResults(result));
+        setExpressions((await ExpressionService.getWithLowerResults(result)).sort((a,b) => b.id - a.id));
         setLoading(false);
     }
-    async function fetchExpressionsWithUpperResults() {
-        setExpressions(await ExpressionService.getWithUpperResults(result));
+    async function fetchExpressionsWithHigherResults() {
+        setExpressions((await ExpressionService.getWithHigherResults(result)).sort((a,b) => b.id - a.id));
         setLoading(false);
     }
     const customFind = (value) => {
@@ -49,7 +49,7 @@ const ExpressionList = () => {
                 fetchExpressions()
             } else if(result) {
                 if (value === "by_result") fetchExpressionsByResult();
-                if(value === "upper_then_result") fetchExpressionsWithUpperResults();
+                if(value === "higher_then_result") fetchExpressionsWithHigherResults();
                 if(value === "lower_then_result") fetchExpressionsWithLowerResults();
             } else {
                 alert("result must be setted!")
@@ -61,12 +61,12 @@ const ExpressionList = () => {
     return (
         <div>
             <div className="item">
-                <Input type="number" placeHolder="result" value={result}
+                <Input type="number" placeHolder="required result" value={result}
                        onChange={e => setResult(e.target.value)}/>
-                <select className="select" onChange={(e) => customFind(e.target.value)}>
+                <select className="select" onClick={(e) => customFind(e.target.value)}>
                     <option value="all">find all</option>
                     <option value="by_result">find by result</option>
-                    <option value="upper_then_result">find with higher results </option>
+                    <option value="higher_then_result">find with higher results </option>
                     <option value="lower_then_result">find with lower results </option>
                 </select>
             </div>

@@ -23,9 +23,9 @@ export default class ExpressionService {
             alert(e);
         }
     };
-    static async getWithUpperResults(res) {
+    static async getWithHigherResults(res) {
         try {
-            const response = await fetch('http://localhost:8080/task/all/upper/' + res);
+            const response = await fetch('http://localhost:8080/task/all/higher/' + res);
             return await response.json();
         } catch (e) {
             alert(e);
