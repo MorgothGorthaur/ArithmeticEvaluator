@@ -57,9 +57,9 @@ public class TestAppRestController {
         return repository.getExpressionsWithLowerResults(res);
     }
 
-    @GetMapping("/all/upper/{res}")
-    public List<Expression> getExpressionsWithUpperResults(@PathVariable Double res) {
-        return repository.getExpressionsWithUpperResults(res);
+    @GetMapping("/all/higher/{res}")
+    public List<Expression> getExpressionsWithHigherResults(@PathVariable Double res) {
+        return repository.getExpressionsWithHigherResults(res);
     }
 
 }

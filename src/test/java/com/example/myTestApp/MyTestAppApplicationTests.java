@@ -3,7 +3,6 @@ package com.example.myTestApp;
 
 import com.example.myTestApp.model.Expression;
 import com.example.myTestApp.repository.ExpressionRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -100,8 +99,8 @@ class MyTestAppApplicationTests {
     }
 
     @Test
-    public void getExpressionsWithUpperResults() throws Exception {
-        this.mockMvc.perform(get("/task/all/upper/5")
+    public void getExpressionsWithHigherResults() throws Exception {
+        this.mockMvc.perform(get("/task/all/higher/5")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(1)));
     }
