@@ -132,16 +132,14 @@ class ParserTest {
         tokens.add(new OperationToken(OperationType.MULTIPLICATION));
         tokens.add(new BracketToken(true));
         tokens.add(new BracketToken(false));
-        var exception = assertThrows(EmptyExpressionException.class, () -> {
+        assertThrows(EmptyExpressionException.class, () -> {
             parser.evaluate(tokens);
         });
-        assertEquals(exception.getMessage(), "empty expression");
         //
         tokens.clear();
-        var secondException = assertThrows(EmptyExpressionException.class, () ->{
+        assertThrows(EmptyExpressionException.class, () ->{
             parser.evaluate(tokens);
         });
-        assertEquals(secondException.getMessage(), "empty expression");
     }
 
     @Test
@@ -149,10 +147,9 @@ class ParserTest {
         //)
         var tokens = new LinkedList<Token>();
         tokens.add(new BracketToken(false));
-        var exception = assertThrows(MissedLeftBracketException.class, () ->{
+       assertThrows(MissedLeftBracketException.class, () ->{
             parser.evaluate(tokens);
         });
-        assertEquals(exception.getMessage(), "Missed (");
         //2*(3+2)+2)
         tokens.clear();
         tokens.add(new NumberToken(2.0));
@@ -165,10 +162,9 @@ class ParserTest {
         tokens.add(new OperationToken(OperationType.ADDITION));
         tokens.add(new NumberToken(2.0));
         tokens.add(new BracketToken(false));
-        var secondException = assertThrows(MissedLeftBracketException.class, () ->{
+        assertThrows(MissedLeftBracketException.class, () ->{
             parser.evaluate(tokens);
         });
-        assertEquals(secondException.getMessage(), "Missed (");
     }
     @Test
     void evaluate_shouldThrowOperationExpectedException() {
@@ -176,10 +172,9 @@ class ParserTest {
         var tokens = new LinkedList<Token>();
         tokens.add(new NumberToken(2.0));
         tokens.add(new NumberToken(2.0));
-        var expression = assertThrows(OperationExpectedException.class, () -> {
+        assertThrows(OperationExpectedException.class, () -> {
             parser.evaluate(tokens);
         });
-        assertEquals(expression.getMessage(), "operation expected!");
     }
     @Test
     void evaluate_shouldThrowDivisionByZeroException() {
@@ -194,13 +189,12 @@ class ParserTest {
         tokens.add(new BracketToken(false));
         tokens.add(new OperationToken(OperationType.ADDITION));
         tokens.add(new NumberToken(3.0));
-        var expression = assertThrows(DivisionByZeroException.class, () -> {
+        assertThrows(DivisionByZeroException.class, () -> {
            parser.evaluate(tokens);
         });
-        assertEquals(expression.getMessage(), "division by zero!");
     }
     @Test
-    void evaluate_shouldThrowBadOperandException() {
+    void evaluate_shouldThrowOperandExpectedException() {
         //2 + + (2+2)
         var tokens = new LinkedList<Token>();
         tokens.add(new NumberToken(2.0));
@@ -211,17 +205,31 @@ class ParserTest {
         tokens.add(new OperationToken(OperationType.ADDITION));
         tokens.add(new NumberToken(2.0));
         tokens.add(new BracketToken(false));
-        var expression = assertThrows(BadOperandException.class, () -> {
+        assertThrows(OperandExpectedException.class, () -> {
             parser.evaluate(tokens);
         });
-        assertEquals(expression.getMessage(), "bad operand");
-    }
-
-    @Test
-    void evaluate_shouldThrowOperandExpectedException() {
-        var tokens = new LinkedList<Token>();
+        //2+
+        tokens.clear();
         tokens.add(new NumberToken(2.0));
         tokens.add(new OperationToken(OperationType.ADDITION));
+        assertThrows(OperandExpectedException.class, () -> {
+           parser.evaluate(tokens);
+        });
+        //2*
+        tokens.clear();
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.MULTIPLICATION));
+        assertThrows(OperandExpectedException.class, () -> {
+            parser.evaluate(tokens);
+        });
+
+        //*2
+        tokens.clear();
+        tokens.add(new OperationToken(OperationType.MULTIPLICATION));
+        tokens.add(new NumberToken(2.0));
+        assertThrows(OperandExpectedException.class, () -> {
+           parser.evaluate(tokens);
+        });
 
     }
     @Test

@@ -68,7 +68,7 @@ public class ParserImpl implements Parser {
         return operation.doOperation(leftOperand, evaluateExpression(tokens));
     }
     private Double getMultiplyOrDivideResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation) {
-        if (tokens.isEmpty()) throw new OperationExpectedException();
+        if (tokens.isEmpty()) throw new OperandExpectedException();
         var rightToken = tokens.removeFirst();
         rightToken = checkIfRightTokenIsBracket(tokens, rightToken);
         if(rightToken instanceof NumberToken){
