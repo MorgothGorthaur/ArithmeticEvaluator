@@ -109,6 +109,13 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
     <img src="/screens/changing_result_1.png"/>
    <h3> result </h3>
  </div>
+  <br/>
+  <div align = "center">
+  <img src="/screens/bad_changing.png" />
+   <h3> setting new values with division by zero</h3>
+    <img src="/screens/bad_changing_res.png "/>
+   <h3> result </h3>
+ </div>
  </div>
  
  
