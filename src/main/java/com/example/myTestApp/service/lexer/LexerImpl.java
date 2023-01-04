@@ -24,14 +24,14 @@ public class LexerImpl implements Lexer {
                 case '*' -> tokens.add(new OperationToken(OperationType.MULTIPLICATION));
                 case '/' -> tokens.add(new OperationToken(OperationType.DIVISION));
                 case '+' -> {
-                    if (ifContainsAnotherOperatorBefore(expression, iterator)) {
+                    if (ifFirstOrContainsAnotherOperatorBefore(expression, iterator)) {
                         iterator = addOperand(expression, tokens, iterator);
                     } else {
                         tokens.add(new OperationToken(OperationType.ADDITION));
                     }
                 }
                 case '-' -> {
-                    if (ifContainsAnotherOperatorBefore(expression, iterator)) {
+                    if (ifFirstOrContainsAnotherOperatorBefore(expression, iterator)) {
                         iterator = addOperand(expression, tokens, iterator);
                     } else {
                         tokens.add(new OperationToken(OperationType.SUBTRACTION));
@@ -45,7 +45,7 @@ public class LexerImpl implements Lexer {
         return tokens;
     }
 
-    private boolean ifContainsAnotherOperatorBefore(String expression, int iterator) {
+    private boolean ifFirstOrContainsAnotherOperatorBefore(String expression, int iterator) {
         return iterator == 0 || (expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/'
                 || expression.charAt(iterator - 1) == '+' || expression.charAt(iterator - 1) == '-');
     }
