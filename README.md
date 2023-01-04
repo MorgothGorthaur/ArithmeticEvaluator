@@ -96,9 +96,9 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2)", "2+	2" is equ
   <div align = "center">
   <img src="/screens/get_by_result_example.png" />
   <h3> get expressions containing same result </h3>
-  <img src="screens/get_with_higher_results_example.png" />
+  <img src="screens/get_higher_example.png" />
    <h3> get expressions containing higher results </h3>
-   <img src="screens/get_with_lower_results_example.png" />
+   <img src="screens/get_lower_example.png" />
    <h3> get expressions containing lower results </h3>
  </div>
  <h2> Changing expressions examples </h2>
