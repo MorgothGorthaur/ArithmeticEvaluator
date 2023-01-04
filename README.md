@@ -82,8 +82,8 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
  </div>
    <div align = "center">
   <img src="/screens/division_by_zero_example.png" />
-  <h3> adding expression with missed bracket </h3>
-  <img src="screens/division.png" />
+  <h3> adding expression with division by zero </h3>
+  <img src="screens/division_by_zero_result.png" />
   <h3> result </h3>
  </div>
  </div>
