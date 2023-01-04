@@ -49,12 +49,12 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
   <img src="/screens/good_expession_example_1.png" />
   <h3> adding expression </h3>
   <img src="screens/good_expression_result_1.png" />
-  <h3> result (is rounded to three digits after the point)</h3>
+  <h3> result (is rounded to three decimal places)</h3>
  </div>
  <div align = "center">
   <img src="/screens/good_expression_example_2.png" />
   <h3> adding expression </h3>
   <img src="screens/good_expression_result_2.png" />
-  <h3> result (is rounded to three digits after the point)</h3>
+  <h3> result (expression is equal to "(2*(10-5)+10)/-20")</h3>
  </div>
  
