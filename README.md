@@ -9,7 +9,7 @@ This is RESTful java Spring Boot application wich implements entity Expression w
  </div>
  <br/>
  <div>
-Samples of incorrect expressions - empty expressions and expressions with no values in brackets (e. g. "2 + ()", expressions with missed brackets (e. g. "2+2)"), expressions containing letters, expressions containing numbers started with '.' (e. g. "2 + .2"). Expressions with incorect operators sequence are also incorrect (e. g. "2-*2", but "2* -2" is correct)
+Samples of incorrect expressions - empty expressions and expressions with no values in brackets (e. g. "2 + ()"), expressions with missed brackets (e. g. "2+2)"), expressions containing letters, expressions containing numbers started with '.' (e. g. "2 + .2"). Expressions with incorect operators sequence are also incorrect (e. g. "2-*2", but "2* -2" is correct)
 If expression contains division by zero, the program returns an error message.
  </div>
 <br/>
