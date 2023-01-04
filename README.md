@@ -42,3 +42,5 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
       <div>run: npm install</div>
       <div>then: npm start</div>
   </div>
+  <div>You also need to provide acces to your MariaDB database. </div>
+  <div>You must set your database url, password and username to *project directory*/src/main/resources/application.properties file and to *project directory*/src/test/resources/test.properties </div>
