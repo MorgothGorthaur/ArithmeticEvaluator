@@ -52,8 +52,9 @@ public class LexerImpl implements Lexer {
 
     private int addOperand(String expression, LinkedList<Token> tokens, int iterator) {
         try {
-            var index = getLastTokenIndex(expression, iterator + 1);
+            var index = getLastTokenIndex(expression, iterator);
             var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
+            if(operand.charAt(0) =='.' || (operand.charAt(1) == '.' && (operand.charAt(0) == '+' || operand.charAt(0) =='-'))) throw new BadOperandException();
             tokens.add(new NumberToken(Double.parseDouble(operand)));
             iterator = index - 1;
             return iterator;
@@ -65,12 +66,10 @@ public class LexerImpl implements Lexer {
 
     private Integer getLastTokenIndex(String expression, Integer iterator) {
         var charArr = expression.toCharArray();
+        if(!Character.isDigit(charArr[iterator])) iterator ++;
         var lastTokenIndex = iterator;
         while (lastTokenIndex + 1 <= charArr.length && (Character.isDigit(charArr[lastTokenIndex]) || charArr[lastTokenIndex] == '.')) {
             lastTokenIndex++;
-        }
-        if (lastTokenIndex == 0 && !Character.isDigit(charArr[lastTokenIndex])) {
-            throw new BadOperandException();
         }
         return lastTokenIndex;
     }
