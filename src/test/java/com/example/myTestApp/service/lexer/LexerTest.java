@@ -44,5 +44,19 @@ class LexerTest {
         assertThrows(BadOperandException.class, () -> {
             lexer.tokenize(secondExpression);
         });
+
+        var thirdExpression = ".";
+        assertThrows(BadOperandException.class, () -> {
+            lexer.tokenize(thirdExpression);
+        });
+        var fourthExpression = "2*.2";
+        assertThrows(BadOperandException.class, () -> {
+            lexer.tokenize(fourthExpression);
+        });
+
+        var fifthExpression = "2*-.2";
+        assertThrows(BadOperandException.class, () -> {
+            lexer.tokenize(fifthExpression);
+        });
     }
 }

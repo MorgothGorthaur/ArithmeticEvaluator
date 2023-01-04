@@ -17,7 +17,7 @@ public class LexerImpl implements Lexer {
     private List<Token> getTokens(String expression) {
         var tokens = new LinkedList<Token>();
         var iterator = 0;
-        while (iterator + 1 <= expression.length()) {
+        while (iterator < expression.length()) {
             switch (expression.charAt(iterator)) {
                 case '(' -> tokens.add(new BracketToken(true));
                 case ')' -> tokens.add(new BracketToken(false));
@@ -54,7 +54,7 @@ public class LexerImpl implements Lexer {
         try {
             var index = getLastTokenIndex(expression, iterator);
             var operand = index == iterator ? String.valueOf(expression.charAt(index)) : expression.substring(iterator, index);
-            if(operand.charAt(0) =='.' || (operand.charAt(1) == '.' && (operand.charAt(0) == '+' || operand.charAt(0) =='-'))) throw new BadOperandException();
+            if(operand.charAt(0) =='.' || (operand.length() > 1 && operand.charAt(1) == '.' && (operand.charAt(0) == '+' || operand.charAt(0) =='-'))) throw new BadOperandException();
             tokens.add(new NumberToken(Double.parseDouble(operand)));
             iterator = index - 1;
             return iterator;
@@ -68,7 +68,7 @@ public class LexerImpl implements Lexer {
         var charArr = expression.toCharArray();
         if(!Character.isDigit(charArr[iterator])) iterator ++;
         var lastTokenIndex = iterator;
-        while (lastTokenIndex + 1 <= charArr.length && (Character.isDigit(charArr[lastTokenIndex]) || charArr[lastTokenIndex] == '.')) {
+        while (lastTokenIndex  < charArr.length && (Character.isDigit(charArr[lastTokenIndex]) || charArr[lastTokenIndex] == '.')) {
             lastTokenIndex++;
         }
         return lastTokenIndex;
