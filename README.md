@@ -44,7 +44,7 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
   </div>
   <div>You also need to provide acces to your MariaDB database. </div>
   <div>You must set your database url, password and username to *project directory*/src/main/resources/application.properties file and to *project directory*/src/test/resources/test.properties </div>
-  <h2> Examples </h2>
+  <h2> adding expressions examples </h2>
  <div>
  <div align = "center">
   <img src="/screens/good_expession_example_1.png" />
@@ -100,6 +100,12 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
    <h3> get expressions containing higher results </h3>
    <img src="screens/get_with_lower_results_example.png" />
    <h3> get expressions containing lower results </h3>
+ </div>
+ <h2> Changing expressions examples </h2>
+ <div>
+  <div align = "center">
+  <img src="/screens/expression_changing_example1" />
+ </div>
  </div>
  
  
