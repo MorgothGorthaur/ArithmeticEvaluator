@@ -46,7 +46,7 @@ public class LexerImpl implements Lexer {
     }
 
     private boolean ifFirstOrContainsAnotherOperatorBehind(String expression, int iterator) {
-        return iterator == 0 || (expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/');
+        return iterator == 0 || (expression.charAt(iterator - 1) == '*' || expression.charAt(iterator - 1) == '/' || expression.charAt(iterator-1) =='(');
     }
 
     private int addOperand(String expression, LinkedList<Token> tokens, int iterator) {
