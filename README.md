@@ -33,3 +33,12 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
  <div> Java 17 </div>
  <div> MariaDB </div>
  <div> Maven </div>
+ <h2>Run:</h2> 
+  <div>
+    <div>go to the project directory.
+      <div>run: mvn clean package</div>
+      <div>then: java -jar target/calendar-0.0.1-SNAPSHOT.jar</div>
+      <div>go to the *project directory*/react/calendar</div>
+      <div>run: npm install</div>
+      <div>then: npm start</div>
+  </div>
