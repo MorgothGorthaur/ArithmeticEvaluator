@@ -52,12 +52,14 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
   <img src="screens/good_expression_result_1.png" />
   <h3> result (is rounded to three decimal places)</h3>
  </div>
+  <br/>
  <div align = "center">
   <img src="/screens/good_expression_example_2.png" />
   <h3> adding expression </h3>
   <img src="screens/good_expression_result_2.png" />
   <h3> result (expression is equal to "(2*(10-5)+10)/-20"</h3>
  </div>
+  <br/>
   <div align = "center">
   <img src="/screens/good_expression_example_3.png" />
   <h3> adding expression </h3>
@@ -74,12 +76,14 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
   <img src="screens/bad_expression_result_1.png" />
   <h3> result </h3>
  </div>
+  <br/>
  <div align = "center">
   <img src="/screens/bad_expression_example_2.png" />
   <h3> adding expression with missed bracket </h3>
   <img src="screens/bad_expression_result_2.png" />
   <h3> result </h3>
  </div>
+  <br/>
    <div align = "center">
   <img src="/screens/division_by_zero_example.png" />
   <h3> adding expression with division by zero </h3>
