@@ -86,7 +86,7 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2)", "2+	2" is equ
  <br/>
    <div align = "center">
   <img src="/screens/operand_expected.png" />
-  <h3> adding expression with bad operands </h3>
+  <h3> adding expression with expected operands </h3>
   <img src="screens/operand_expected_result.png" />
   <h3> result </h3>
  </div>
