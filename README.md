@@ -70,5 +70,11 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
   <img src="screens/bad_expression_result_1.png" />
   <h3> result </h3>
  </div>
+ <div align = "center">
+  <img src="/screens/bad_expression_example_2.png" />
+  <h3> adding expression with missed bracket </h3>
+  <img src="screens/bad_expression_result_2.png" />
+  <h3> result </h3>
+ </div>
  
  
