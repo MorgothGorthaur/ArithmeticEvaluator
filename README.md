@@ -104,7 +104,7 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
  <h2> Changing expressions examples </h2>
  <div>
   <div align = "center">
-  <img src="/screens/expression_changing_example1" />
+  <img src="/screens/expression_changing_example1.png" />
  </div>
  </div>
  
