@@ -15,16 +15,18 @@ public class OperationToken implements Token{
         return String.valueOf(operationType);
     }
     public double doOperation(double firstOperand, double secondOperand) {
+        var res = 0.0;
         switch (operationType.ordinal()) {
-            case 0 -> {return firstOperand + secondOperand;}
-            case 1 -> {return firstOperand - secondOperand;}
-            case 2 -> {return  Math.round(1000 * firstOperand * secondOperand) / 1000.0;}
+            case 0 -> res =  firstOperand + secondOperand;
+            case 1 -> res = firstOperand - secondOperand;
+            case 2 -> res =  firstOperand * secondOperand;
             case 3 -> {
                 if(secondOperand != 0) {
-                    return Math.round(1000 * (firstOperand / secondOperand)) / 1000.0;
+                    res = firstOperand / secondOperand;
                 } else throw new DivisionByZeroException();
             }
             default -> throw new RuntimeException("unknown operation type!");
         }
+        return Math.round(1000 * res) / 1000.0;
     }
 }
