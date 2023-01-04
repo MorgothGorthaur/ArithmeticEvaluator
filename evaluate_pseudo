@@ -1,15 +1,15 @@
 evaluate_expr(tokens)
-	if tokens is empty: throw error
+	if tokens is empty: throw empty_expression_error;
 	next_operand = tokens.remove
 	if next_token is numberToken:
 		return do_operation(tokens, next_token)
 	else if next_token is bracketToken:
 		evaluate_expr(tokens)
-	else: throw error;
+	else: throw operand_expected_error;
 	
 
 evaluate_brackets(tokens):
-	if tokens.first is bracketToken and !tokens.first.isOpen: throw error;
+	if tokens.first is bracketToken and !tokens.first.isOpen: throw empty_expression_error;
 	result = evaluate_expr(tokens)
 	tokens.remove
 	tokens.addFirst(result)
@@ -18,29 +18,28 @@ do_operation(tokens, next_token):
 	left_operand = next_token.getNumber
 	operation = tokens.remove
 	if operation is operationToken:
+		right_token = token.remove
+		right_token = check_if_right_token_is_bracket(tokens, right_token)
+		if right_token is empty throw throw operand_expected_error;
 		if(operation is Multiplication or Division:
-			return mult_or_div_operation(left_operand, operation, tokens)
+			return mult_or_div_operation(left_operand, operation, tokens, right_token)
 		else:
-			return add_or_dist_operation(left_operand, operation, token)
+			return add_or_dist_operation(left_operand, operation, token, right_token)
 
-mult_or_div_operation(left_operand, operation, tokens):
-	right_token = tokens.remove
-	right_token = check_if_right_token_is_bracket(tokens, right_token)
+mult_or_div_operation(left_operand, operation, tokens, right_token):
 	if right_token is numberToken:
 		res = operation(left_operand, right_token.number)
-	else: throw error
+	else: throw throw operand_expected_error;
 	tokens.addFirst(res)
 	return evaluate_exp(tokens)
 
 
-add_or_dist_operation(left_operand, operation, token):
-	right_token = token.remove
-	right_token = check_if_right_token_is_bracket(tokens, right_token)
+add_or_dist_operation(left_operand, operation, token, right_token):
 	if right_token is numberToken:
 		if operation.operationType is Subtraction:
 			operation = Addition
 			rightToken.setNumber(-1*rightToken.getNumber)
-	else: throw error
+	else: throw throw operand_expected_error;
 	tokens.addFirst(right_token)
 	return operation(left_token, evaluate_expr(tokens)
 
@@ -49,4 +48,3 @@ check_if_right_token_is_bracket(tokens, right_token):
 		evaluate_brackes(tokens)
 		right_token = tokens.remove
 	return right_token
-		
