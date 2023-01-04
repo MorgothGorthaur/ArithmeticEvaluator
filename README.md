@@ -9,12 +9,12 @@ This is RESTful java Spring Boot application wich implements entity Expression w
  </div>
  <br/>
  <div>
-Samples of incorrect expressions - empty expressions, expressions with missed brackets (e. g. "2+2)"), expressions containing letters, expressions containing numbers started with '.' (e. g. "2 + .2"). Expressions with incorect operators sequence are also incorrect (e. g. "2-*2", but "2* -2" is correct)
+Samples of incorrect expressions - empty expressions and expressions with no values in brackets (e. g. "2 + ()", expressions with missed brackets (e. g. "2+2)"), expressions containing letters, expressions containing numbers started with '.' (e. g. "2 + .2"). Expressions with incorect operators sequence are also incorrect (e. g. "2-*2", but "2* -2" is correct)
 If expression contains division by zero, the program returns an error message.
  </div>
 <br/>
 <div>
-Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is same as "+1", "2 + -1" is same as "2 - +1" and "2-1" (but "2/ +-1" or "2* +-1" is incorrect), "2+	2" is equal to "2+2", "2++2" is same as "2+2".
+Samples of correct expressions - "2*((2+2))" is same as "2*(2+2)", "--1" is same as "+1", "2 + -1" is same as "2 - +1" and "2-1" (but "2/ +-1" or "2* +-1" is incorrect), "2+	2" is equal to "2+2", "2++2" is same as "2+2".
 </div>
 <h2>Used Technologies:</h2>
  <div>
