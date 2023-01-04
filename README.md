@@ -90,6 +90,13 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2)", "--1" is same
   <img src="screens/division_by_zero_result.png" />
   <h3> result </h3>
  </div>
+ <br/>
+   <div align = "center">
+  <img src="/screens/bad_operand_example.png" />
+  <h3> adding expression with bad operands </h3>
+  <img src="screens/bad_operand_result.png" />
+  <h3> result </h3>
+ </div>
  </div>
  <br/>
  <h2> Getting expressions from db examples </h2>
