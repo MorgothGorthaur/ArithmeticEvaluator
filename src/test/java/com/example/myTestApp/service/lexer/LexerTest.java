@@ -13,17 +13,17 @@ class LexerTest {
 
     @Test
     void tokenize() {
-        var expression = "2.5+44/(2--2)+ 3.5";
+        var expression = "2.5+44/(2-2)+ 3.5";
         var res = lexer.tokenize(expression);
-        assertEquals(res.toString(), "[2.5, ADDITION, 44.0, DIVISION, (, 2.0, ADDITION, 2.0, ), ADDITION, 3.5]");
+        assertEquals(res.toString(), "[2.5, ADDITION, 44.0, DIVISION, (, 2.0, SUBTRACTION, 2.0, ), ADDITION, 3.5]");
 
         expression = "2+3+(2+((2+2))) -6";
         res = lexer.tokenize(expression);
         assertEquals(res.toString(), "[2.0, ADDITION, 3.0, ADDITION, (, 2.0, ADDITION, (, (, 2.0, ADDITION, 2.0, ), ), ), SUBTRACTION, 6.0]");
 
-        expression = "2++2 -+2+-2";
+        expression = "2+2 * -2-2";
         res = lexer.tokenize(expression);
-        assertEquals(res.toString(), "[2.0, ADDITION, 2.0, SUBTRACTION, 2.0, ADDITION, -2.0]");
+        assertEquals(res.toString(), "[2.0, ADDITION, 2.0, MULTIPLICATION, -2.0, SUBTRACTION, 2.0]");
 
         expression = "-2+2";
         res = lexer.tokenize(expression);
