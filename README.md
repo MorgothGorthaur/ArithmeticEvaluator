@@ -92,6 +92,7 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
  </div>
  </div>
  <br/>
+ <h2> Getting expressions from db examples </h2>
   <div align = "center">
   <img src="/screens/get_by_result_example.png" />
   <h3> get expressions containing same result </h3>
