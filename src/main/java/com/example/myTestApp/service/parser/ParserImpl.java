@@ -35,7 +35,7 @@ public class ParserImpl implements Parser {
         } else if (nextToken instanceof BracketToken && ((BracketToken) nextToken).isOpen()) {
             getResultFromBrackets(tokens);
             return evaluateExpression(tokens);
-        } else throw new BadOperandException();
+        } else throw new OperandExpectedException();
     }
 
     private Double doArithmeticOperation(LinkedList<Token> tokens, NumberToken nextToken) {
@@ -55,6 +55,7 @@ public class ParserImpl implements Parser {
     }
 
     private Double getAdditionOrSubtractionResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation){
+        if(tokens.isEmpty()) throw new OperandExpectedException();
         var rightToken = tokens.removeFirst();
         rightToken = checkIfRightTokenIsBracket(tokens, rightToken);
         if(rightToken instanceof NumberToken) {
@@ -67,6 +68,7 @@ public class ParserImpl implements Parser {
         return operation.doOperation(leftOperand, evaluateExpression(tokens));
     }
     private Double getMultiplyOrDivideResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation) {
+        if (tokens.isEmpty()) throw new OperationExpectedException();
         var rightToken = tokens.removeFirst();
         rightToken = checkIfRightTokenIsBracket(tokens, rightToken);
         if(rightToken instanceof NumberToken){

@@ -118,8 +118,6 @@ class ParserTest {
         tokens.add(new NumberToken(-2.0));
         res = parser.evaluate(tokens);
         assertEquals(res, 0);
-
-
     }
     @Test
     void evaluate_shouldThrowEmptyExpressionException() {
