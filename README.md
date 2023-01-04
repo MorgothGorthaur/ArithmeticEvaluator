@@ -47,6 +47,7 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
   <h2> Examples </h2>
  <div align = "center">
   <img src="/screens/good_expession_example_1.png" />
- 
   <h3> adding expression </h3>
+  <img src="screens/good_expression_result_1.png />
+  <h3> result </h3>
  </div>
