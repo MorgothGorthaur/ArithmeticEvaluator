@@ -91,5 +91,14 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2")", "--1" is sam
   <h3> result </h3>
  </div>
  </div>
+ <br/>
+  <div align = "center">
+  <img src="/screens/get_by_result_example.png" />
+  <h3> get expressions containing same result </h3>
+  <img src="screens/get_with_higher_results_example.png" />
+   <h3> get expressions containing higher results </h3>
+   <img src="screens/get_with_lower_results_example.png" />
+   <h3> get expressions containing lower results </h3>
+ </div>
  
  
