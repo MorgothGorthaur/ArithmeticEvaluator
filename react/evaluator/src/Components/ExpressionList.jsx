@@ -38,8 +38,8 @@ const ExpressionList = () => {
         setExpressions((await ExpressionService.getWithLowerResults(result)).sort((a,b) => b.id - a.id));
         setLoading(false);
     }
-    async function fetchExpressionsWithUpperResults() {
-        setExpressions((await ExpressionService.getWithUpperResults(result)).sort((a,b) => b.id - a.id));
+    async function fetchExpressionsWithHigherResults() {
+        setExpressions((await ExpressionService.getWithHigherResults(result)).sort((a,b) => b.id - a.id));
         setLoading(false);
     }
     const customFind = (value) => {
@@ -49,7 +49,7 @@ const ExpressionList = () => {
                 fetchExpressions()
             } else if(result) {
                 if (value === "by_result") fetchExpressionsByResult();
-                if(value === "upper_then_result") fetchExpressionsWithUpperResults();
+                if(value === "higher_then_result") fetchExpressionsWithHigherResults();
                 if(value === "lower_then_result") fetchExpressionsWithLowerResults();
             } else {
                 alert("result must be setted!")
@@ -66,7 +66,7 @@ const ExpressionList = () => {
                 <select className="select" onClick={(e) => customFind(e.target.value)}>
                     <option value="all">find all</option>
                     <option value="by_result">find by result</option>
-                    <option value="upper_then_result">find with higher results </option>
+                    <option value="higher_then_result">find with higher results </option>
                     <option value="lower_then_result">find with lower results </option>
                 </select>
             </div>
