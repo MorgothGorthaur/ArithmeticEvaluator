@@ -44,9 +44,12 @@ public class ParserImpl implements Parser {
         var operation = tokens.removeFirst();
         if (operation instanceof OperationToken) {
             var operationType = ((OperationToken) operation).getOperationType();
+            if(tokens.isEmpty()) throw new OperandExpectedException();
+            var rightToken = tokens.removeFirst();
+            rightToken = checkIfRightTokenIsBracket(tokens, rightToken);
             return operationType.equals(OperationType.MULTIPLICATION) || operationType.equals(OperationType.DIVISION) ?
-                    getMultiplyOrDivideResult(tokens, leftOperand, (OperationToken) operation) :
-                    getAdditionOrSubtractionResult(tokens,leftOperand,(OperationToken)  operation);
+                    getMultiplyOrDivideResult(tokens, leftOperand, (OperationToken) operation, rightToken) :
+                    getAdditionOrSubtractionResult(tokens,leftOperand,(OperationToken)  operation, rightToken);
         } else throw new OperationExpectedException();
     }
 
@@ -54,10 +57,7 @@ public class ParserImpl implements Parser {
         return tokens.isEmpty() || (tokens.getFirst() instanceof BracketToken && !((BracketToken) tokens.getFirst()).isOpen());
     }
 
-    private Double getAdditionOrSubtractionResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation){
-        if(tokens.isEmpty()) throw new OperandExpectedException();
-        var rightToken = tokens.removeFirst();
-        rightToken = checkIfRightTokenIsBracket(tokens, rightToken);
+    private Double getAdditionOrSubtractionResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation, Token rightToken){
         if(rightToken instanceof NumberToken) {
             if(operation.getOperationType().equals(OperationType.SUBTRACTION)){
                 operation.setOperationType(OperationType.ADDITION);
@@ -67,10 +67,7 @@ public class ParserImpl implements Parser {
         tokens.addFirst(rightToken);
         return operation.doOperation(leftOperand, evaluateExpression(tokens));
     }
-    private Double getMultiplyOrDivideResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation) {
-        if (tokens.isEmpty()) throw new OperandExpectedException();
-        var rightToken = tokens.removeFirst();
-        rightToken = checkIfRightTokenIsBracket(tokens, rightToken);
+    private Double getMultiplyOrDivideResult(LinkedList<Token> tokens, Double leftOperand, OperationToken operation, Token rightToken) {
         if(rightToken instanceof NumberToken){
             var res = operation.doOperation(leftOperand, ((NumberToken) rightToken).getNumber());
             tokens.addFirst(new NumberToken(res));
