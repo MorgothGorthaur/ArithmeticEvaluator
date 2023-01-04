@@ -64,16 +64,16 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2)", "2+	2" is equ
  <h2> Examples of incorrect expressions </h2>
  <div>
  <div align = "center">
-  <img src="/screens/bad_expression_example_1.png" />
+  <img src="/screens/empty_example.png" />
   <h3> adding empty expression </h3>
-  <img src="screens/bad_expression_result_1.png" />
+  <img src="screens/empty_result.png" />
   <h3> result </h3>
  </div>
   <br/>
  <div align = "center">
-  <img src="/screens/bad_expression_example_2.png" />
+  <img src="/screens/missed_bracket_example.png" />
   <h3> adding expression with missed bracket </h3>
-  <img src="screens/bad_expression_result_2.png" />
+  <img src="screens/missed_bracket_result.png" />
   <h3> result </h3>
  </div>
   <br/>
@@ -104,9 +104,9 @@ Samples of correct expressions - "2*((2+2))" is same as "2*(2+2)", "2+	2" is equ
  <h2> Changing expressions examples </h2>
  <div>
   <div align = "center">
-  <img src="/screens/expression_changing_setting_new_values_example_1.png" />
+  <img src="/screens/change_example_1.png" />
    <h3> setting new values </h3>
-    <img src="/screens/changing_result_1.png"/>
+    <img src="/screens/change_result_2.png"/>
    <h3> result </h3>
  </div>
   <br/>
