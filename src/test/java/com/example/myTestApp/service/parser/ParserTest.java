@@ -70,7 +70,7 @@ class ParserTest {
         tokens.add(new NumberToken(2.0));
         res = parser.evaluate(tokens);
         assertEquals(res, 6);
-//2+44/(2+2)+3.5
+        //2+44/(2+2)+3.5
         tokens.clear();
         tokens.add(new NumberToken(2.0));
         tokens.add(new OperationToken(OperationType.ADDITION));
@@ -118,6 +118,11 @@ class ParserTest {
         tokens.add(new NumberToken(-2.0));
         res = parser.evaluate(tokens);
         assertEquals(res, 0);
+        //2
+        tokens.clear();
+        tokens.add(new NumberToken(2.0));
+        res = parser.evaluate(tokens);
+        assertEquals(res, 2.0);
     }
     @Test
     void evaluate_shouldThrowEmptyExpressionException() {
@@ -210,6 +215,14 @@ class ParserTest {
             parser.evaluate(tokens);
         });
         assertEquals(expression.getMessage(), "bad operand");
+    }
+
+    @Test
+    void evaluate_shouldThrowOperandExpectedException() {
+        var tokens = new LinkedList<Token>();
+        tokens.add(new NumberToken(2.0));
+        tokens.add(new OperationToken(OperationType.ADDITION));
+
     }
     @Test
     void getNumOfOperands() {

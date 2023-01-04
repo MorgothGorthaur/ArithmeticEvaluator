@@ -63,7 +63,7 @@ public class ParserImpl implements Parser {
                 operation.setOperationType(OperationType.ADDITION);
                 ((NumberToken) rightToken).setNumber(-1 * ((NumberToken) rightToken).getNumber());
             }
-        } else throw new BadOperandException();
+        } else throw new OperandExpectedException();
         tokens.addFirst(rightToken);
         return operation.doOperation(leftOperand, evaluateExpression(tokens));
     }
@@ -74,7 +74,7 @@ public class ParserImpl implements Parser {
         if(rightToken instanceof NumberToken){
             var res = operation.doOperation(leftOperand, ((NumberToken) rightToken).getNumber());
             tokens.addFirst(new NumberToken(res));
-        } else throw new BadOperandException();
+        } else throw new OperandExpectedException();
         return evaluateExpression(tokens);
     }
 
