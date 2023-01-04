@@ -15,7 +15,7 @@ class LexerTest {
     void tokenize() {
         var expression = "2.5+44/(2--2)+ 3.5";
         var res = lexer.tokenize(expression);
-        assertEquals(res.toString(), "[2.5, ADDITION, 44.0, DIVISION, (, 2.0, SUBTRACTION, -2.0, ), ADDITION, 3.5]");
+        assertEquals(res.toString(), "[2.5, ADDITION, 44.0, DIVISION, (, 2.0, ADDITION, 2.0, ), ADDITION, 3.5]");
 
         expression = "2+3+(2+((2+2))) -6";
         res = lexer.tokenize(expression);

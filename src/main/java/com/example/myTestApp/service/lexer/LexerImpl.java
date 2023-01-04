@@ -10,7 +10,7 @@ import java.util.List;
 public class LexerImpl implements Lexer {
     @Override
     public List<Token> tokenize(String receivedString) {
-        var expression = removeDoubleSpaces(receivedString);
+        var expression = removeDoubleSpacesAndOperators(receivedString);
         return getTokens(expression);
     }
 
@@ -75,7 +75,7 @@ public class LexerImpl implements Lexer {
         return lastTokenIndex;
     }
 
-    private String removeDoubleSpaces(String string) {
-        return string.strip().replaceAll("\\ ", "");
+    private String removeDoubleSpacesAndOperators(String string) {
+        return string.strip().replaceAll("\\ ", "").replaceAll("--", "+").replaceAll("\\++", "+");
     }
 }
